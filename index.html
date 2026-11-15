@@ -2,13 +2,326 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=08dc3fc3-9976-46fa-9f71-584f98da4291
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101010">
 <title>Kingston & Norbiton — Live Station Information</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="intro-active">
-<!-- Cleaned content without Netlify — full file would be inserted here -->
+
+<div class="launch-sequence" id="launchSequence" aria-live="assertive">
+  <div class="launch-hud-top">LONDON TRANSIT NETWORK <span>BOOT SEQUENCE / 01</span></div>
+  <div class="launch-crosshair"><span></span><span></span></div>
+  <div class="launch-core"><div class="launch-count">3</div><div class="launch-status">INITIALISING TRANSIT NETWORK</div></div>
+  <div class="launch-progress"><i></i></div>
+  <div class="launch-hud-bottom"><span>BUS + RAIL SYSTEMS</span><span>PLEASE STAND BY</span></div>
+</div>
+
+<div class="intro-screen" id="introScreen">
+  <div class="intro-grid"></div>
+  <div class="intro-orbit orbit-one"></div>
+  <div class="intro-orbit orbit-two"></div>
+  <div class="intro-scan"></div>
+  <div class="intro-content">
+    <div class="intro-eyebrow"><span class="intro-live-dot"></span> LONDON TRANSIT NETWORK <span class="intro-system">SYSTEM ONLINE</span></div>
+    <div class="intro-emblem">
+      <div class="intro-ring"></div>
+      <div class="intro-roundel"><span>BUS</span></div>
+      <div class="intro-emblem-spark">✦</div>
+    </div>
+    <div class="intro-kicker">YOUR JOURNEY STARTS HERE</div>
+    <h1>WELCOME</h1>
+    <div class="intro-subtitle">LATCHMERE LANE <span>·</span> LIVE DEPARTURES</div>
+    <div class="intro-actions">
+      <button class="show-button" id="showDashboard" type="button">
+        <span class="show-button-label">SHOW</span><span class="show-button-arrow">➜</span>
+      </button>
+      <button class="bug-button" id="openBugReport" type="button">
+        <span class="bug-icon">⚑</span><span data-i18n="fixBug">FIX BUG</span>
+      </button>
+      <button class="language-button" id="openSettings" type="button">SETTINGS</button>
+      <button class="language-button" id="openLanguage" type="button"><span>◎</span><span data-i18n="language">LANGUAGE</span></button>
+    </div>
+    <div class="intro-hint">ENTER THE TRANSIT COMMAND CENTRE OR REPORT A PROBLEM</div>
+    <div class="intro-credit">MADE BY <strong>DAN</strong> <span>+</span> <strong>KEV</strong></div>
+  </div>
+  <div class="intro-corner intro-corner-tl">LL / 01</div>
+  <div class="intro-corner intro-corner-tr">LIVE SYSTEM</div>
+  <div class="intro-corner intro-corner-bl">KINGSTON · NORBITON · WATERLOO</div>
+  <div class="intro-corner intro-corner-br">V 2.0 — HYPERDRIVE</div>
+</div>
+
+
+
+
+
+<div class="language-modal" id="languageModal" aria-hidden="true">
+  <div class="language-dialog" role="dialog" aria-modal="true" aria-labelledby="languageTitle">
+    <button class="language-close" id="closeLanguage" type="button" aria-label="Close">×</button>
+    <div class="language-kicker">◉ GLOBAL INTERFACE</div>
+    <h2 id="languageTitle" data-i18n="chooseLanguage">CHOOSE YOUR LANGUAGE</h2>
+    <p data-i18n="languageHint">The dashboard interface will change to your selected language.</p>
+    <div class="language-options" id="languageOptions">
+      <button type="button" data-lang="en">🇬🇧 <span>English</span><b>EN</b></button>
+      <button type="button" data-lang="vi">🇻🇳 <span>Tiếng Việt</span><b>VI</b></button>
+      <button type="button" data-lang="fr">🇫🇷 <span>Français</span><b>FR</b></button>
+      <button type="button" data-lang="es">🇪🇸 <span>Español</span><b>ES</b></button>
+      <button type="button" data-lang="de">🇩🇪 <span>Deutsch</span><b>DE</b></button>
+      <button type="button" data-lang="pl">🇵🇱 <span>Polski</span><b>PL</b></button>
+      <button type="button" data-lang="zh">🇨🇳 <span>简体中文</span><b>中文</b></button>
+      <button type="button" data-lang="ko">🇰🇷 <span>한국어</span><b>KO</b></button>
+    </div>
+  </div>
+</div>
+
+<button class="back-dashboard" id="backToWelcome" type="button">↶ <span data-i18n="back">BACK</span></button>
+
+<div class="bug-modal" id="bugModal" aria-hidden="true">
+  <div class="bug-dialog" role="dialog" aria-modal="true" aria-labelledby="bugTitle">
+    <button class="bug-close" id="closeBugReport" type="button" aria-label="Close">×</button>
+    <div class="bug-dialog-kicker"><span></span> SYSTEM FEEDBACK</div>
+    <h2 id="bugTitle">FOUND A BUG?</h2>
+    <p>Tell Dan and Kev what went wrong. Your email app will open with the report ready to send.</p>
+    <label for="bugDescription">WHAT HAPPENED?</label>
+    <textarea id="bugDescription" rows="5" maxlength="2000" placeholder="Describe the problem…"></textarea>
+    <div class="bug-dialog-actions">
+      <button class="bug-cancel" id="cancelBugReport" type="button">CANCEL</button>
+      <button class="bug-send" id="sendBugReport" type="button">SEND REPORT <span>➜</span></button>
+    </div>
+    <div class="bug-footnote">REPORTS ARE ADDRESSED TO DANIELNGUYEN15555@GMAIL.COM</div>
+  </div>
+</div>
+
+<main class="sign" aria-label="Live bus arrivals">
+  <header class="top">
+    <div class="brand">
+      <div class="roundel" aria-label="Bus roundel"></div>
+      <div><div class="brand-name">TRANSPORT<br>FOR LONDON</div><div class="brand-sub" id="busBrandSub">LIVE BUS DEPARTURES</div></div>
+    </div>
+    <div class="live"><span class="dot" id="dot"></span><span id="liveText">CONNECTING</span></div>
+    <div class="greeting-wrap" aria-live="polite">
+      <div class="greeting-text" id="timeGreeting">GOOD EVENING</div>
+    </div>
+    <div class="clock-wrap" aria-label="Current local time">
+      <div>
+        <div class="clock-label" id="clockLabel">LONDON TIME</div>
+        <div class="clock-digits" id="digitalClock">
+          <span class="digit">0</span><span class="digit">0</span><span class="clock-colon">:</span><span class="digit">0</span><span class="digit">0</span><span class="clock-colon">:</span><span class="digit">0</span><span class="digit">0</span>
+        </div>
+      </div>
+    </div>
+    <button id="stationModeButton" class="station-mode-button" type="button"
+      aria-pressed="false" title="Switch to full-screen station display">STATION MODE ⛶</button>
+
+  </header>
+
+
+  <div class="system-ticker" id="systemTicker" aria-label="Dashboard information">
+    <span class="ticker-tag"><i></i> LIVE STATION INFORMATION</span>
+    <div class="ticker-window"><div class="ticker-track">
+      <span>LIVE STATION DEPARTURES</span><b>✦</b>
+      <span>LATCHMERE LANE · WESTBOUND</span><b>✦</b>
+      <span>KINGSTON + NORBITON → WATERLOO</span><b>✦</b>
+      <span>REAL-TIME FEEDS · AUTO REFRESH</span><b>✦</b>
+      <span>LIVE STATION DEPARTURES</span><b>✦</b>
+      <span>LATCHMERE LANE · WESTBOUND</span><b>✦</b>
+      <span>KINGSTON + NORBITON → WATERLOO</span><b>✦</b>
+      <span>REAL-TIME FEEDS · AUTO REFRESH</span><b>✦</b>
+    </div></div>
+    <span class="ticker-version">SYSTEM 01</span>
+  </div>
+
+  <section class="heading">
+    <div><div class="heading-eyebrow">LOCAL CONNECTIONS · BUS & RAIL</div><div class="stopname">Latchmere Lane</div><div class="direction" id="busDirection">WESTBOUND</div></div>
+    <div class="stopcode"><span id="busStopLabel">BUS STOP</span><br><strong>490008986E</strong></div>
+  </section>
+  <section class="board">
+    <div class="labels"><span id="busLineLabel">LINE</span><span id="busDestinationLabel">DESTINATION</span><span id="busDueLabel" style="text-align:right">DUE</span></div>
+    <div id="arrivals"><div class="state">Fetching live arrivals…</div></div>
+
+    <div class="bus-service-hours" id="busServiceHours">
+      <div class="bus-hours-title" id="busHoursTitle">SERVICE HOURS</div>
+      <div class="bus-hours-state">Checking first and last bus times…</div>
+    </div>
+  </section>
+  <footer class="footer"><span>Predictions provided by <strong>TfL Open Data</strong></span><span id="updated">Waiting for update</span></footer>
+
+<section class="rail-section" aria-label="South Western Railway live departures">
+  <div class="rail-head">
+    <div class="rail-brand-wrap">
+      <div class="swr-brand" aria-label="South Western Railway logo">
+        <svg class="swr-mark" viewBox="0 0 54 54" role="img" aria-label="SWR arrow mark">
+          <rect x="1" y="1" width="52" height="52" rx="2" fill="#00a9e0"/>
+          <path d="M13 13H41V41M41 13L13 41M13 27H27" fill="none" stroke="#ffffff" stroke-width="4.2" stroke-linecap="square" stroke-linejoin="miter"/>
+        </svg>
+        <div class="swr-wordmark"><span>South Western</span><strong>Railway</strong></div>
+      </div>
+      <div class="rail-title" id="railTitle">TRAIN DEPARTURES</div>
+      <div class="rail-route" id="railRoute">KINGSTON &amp; NORBITON → LONDON WATERLOO</div>
+    </div>
+    <div class="live"><span class="dot" id="railDot"></span><span id="railLive">CONNECTING</span></div>
+  </div>
+  <div id="swrServiceStatus" class="swr-service-status status-checking" role="status" aria-live="polite">
+    <div class="swr-status-symbol" aria-hidden="true">…</div>
+    <div class="swr-status-copy">
+      <div class="swr-status-kicker">SOUTH WESTERN RAILWAY · KINGSTON &amp; NORBITON</div>
+      <div id="swrStatusTitle" class="swr-status-title">CHECKING SERVICE</div>
+      <div id="swrStatusDetail" class="swr-status-detail">Checking live departure information…</div>
+    </div>
+    <a class="swr-status-link" href="https://www.nationalrail.co.uk/train-operator-status/" target="_blank" rel="noopener noreferrer">OFFICIAL NETWORK STATUS ↗</a>
+  </div>
+
+  <div class="rail-hours" id="railHours">
+    <div class="rail-hours-heading" id="railHoursHeading">FIRST &amp; LAST TRAINS TO WATERLOO</div>
+    <div class="rail-hours-grid">
+      <div class="rail-hours-card">
+        <div class="rail-hours-station">KINGSTON <span>KNG</span></div>
+        <div class="rail-hours-times">
+          <div><small>FIRST</small><strong>05:03</strong></div>
+          <div><small>LAST</small><strong>23:59</strong></div>
+        </div>
+        <div class="rail-hours-note">Weekdays</div>
+        <div class="rail-hours-times">
+          <div><small>SAT FIRST</small><strong>05:04</strong></div>
+          <div><small>SAT LAST</small><strong>23:59</strong></div>
+        </div>
+        <div class="rail-hours-times">
+          <div><small>SUN FIRST</small><strong>06:49</strong></div>
+          <div><small>SUN LAST</small><strong>23:34</strong></div>
+        </div>
+      </div>
+      <div class="rail-hours-card">
+        <div class="rail-hours-station">NORBITON <span>NBT</span></div>
+        <div class="rail-hours-times">
+          <div><small>FIRST</small><strong>05:05</strong></div>
+          <div><small>LAST</small><strong>23:52</strong></div>
+        </div>
+        <div class="rail-hours-note">Weekdays</div>
+        <div class="rail-hours-times">
+          <div><small>SAT FIRST</small><strong>05:06</strong></div>
+          <div><small>SAT LAST</small><strong>23:52</strong></div>
+        </div>
+        <div class="rail-hours-times">
+          <div><small>SUN FIRST</small><strong>06:44</strong></div>
+          <div><small>SUN LAST</small><strong>23:36</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="rail-hours-note">Published Summer 2026 timetable · valid until 12 December 2026 · scheduled times, subject to changes and disruption</div>
+  </div>
+
+  <div class="rail-board">
+    <div class="rail-columns">
+      <span id="trainTimeLabel">TIME</span><span id="trainDestinationLabel">DESTINATION / SERVICE</span><span id="trainExpectedLabel">EXPECTED</span><span id="trainPlatformLabel" style="text-align:center">PLAT.</span><span id="trainStatusLabel" style="text-align:right">STATUS</span>
+    </div>
+    <div id="railDepartures"><div class="rail-state">Loading Kingston and Norbiton train departures…</div></div>
+  </div>
+
+  <div class="rail-foot"><span id="railDataLabel">Rail data: <strong>railinfo.uk</strong> (Network Rail / National Rail feeds)</span><span id="railUpdated">Waiting for update</span></div>
+  <div id="railAlert" class="rail-alert" role="alert" aria-live="assertive" hidden></div>
+</section>
+
+</main>
+<dialog id="announcementSettings" aria-labelledby="settingsTitle">
+<button class="settings-close" id="closeSettings" type="button">Done</button>
+<h2 id="settingsTitle">SETTINGS</h2>
+<p class="celia-settings-shortcut"><button type="button" id="openCeliaFromSettings">OPEN CELIA LIVE PLAYER ↗</button></p>
+
+<section class="announcement-panel" aria-label="Live spoken announcements">
+  <div class="announcement-controls">
+    <strong>LIVE ANNOUNCEMENTS · ENGLISH</strong>
+    <button id="announcementToggle" type="button" aria-pressed="false">Turn sound on</button>
+    <button id="announcementTest" type="button">Test sound</button>
+    <label for="announcementVolume">Volume <input id="announcementVolume" type="range" min="0" max="1" step="0.1" value="1"></label>
+  </div>
+  <p><label for="announcementVoice">English voice for trains and other bus routes</label><br><select id="announcementVoice"><option value="">Automatic British English</option></select></p>
+  <p id="announcementStatus" role="status">Sound off · tap Turn sound on to start</p>
+  <p>Tap <strong>Turn sound on</strong> once, then listen for the confirmation. If silent, turn up your device’s media volume and tap <strong>Test sound</strong>. Keep this page open for live announcements.</p>
+  <p id="announcementCaption" aria-live="off">Bus arrivals and train departures within three minutes are announced in English.</p>
+</section><h3>371 · Your recorded voice</h3>
+<p>Choose an English recording for each phrase. These recordings replace synthetic speech for the 371. Files stay on this device for this visit; choose them again after reloading.</p>
+<p><a href="https://www.railannouncements.co.uk/" target="_blank" rel="noopener noreferrer" style="color:#ffd166">Explore Rail Announcements recordings</a>. Their audio has separate licensing terms; use recordings you have permission to reuse.</p>
+<div class="recording-row"><label for="clip-due">The 371 bus is due now.</label><input id="clip-due" data-recording="due" type="file" accept="audio/*"><audio id="preview-due" controls preload="metadata" aria-label="Preview: The 371 bus is due now."></audio></div><div class="recording-row"><label for="clip-1">The 371 bus is expected in one minute.</label><input id="clip-1" data-recording="1" type="file" accept="audio/*"><audio id="preview-1" controls preload="metadata" aria-label="Preview: The 371 bus is expected in one minute."></audio></div><div class="recording-row"><label for="clip-2">The 371 bus is expected in two minutes.</label><input id="clip-2" data-recording="2" type="file" accept="audio/*"><audio id="preview-2" controls preload="metadata" aria-label="Preview: The 371 bus is expected in two minutes."></audio></div><div class="recording-row"><label for="clip-3">The 371 bus is expected in three minutes.</label><input id="clip-3" data-recording="3" type="file" accept="audio/*"><audio id="preview-3" controls preload="metadata" aria-label="Preview: The 371 bus is expected in three minutes."></audio></div><div class="recording-row"><label for="clip-delay">The 371 bus has been delayed.</label><input id="clip-delay" data-recording="delay" type="file" accept="audio/*"><audio id="preview-delay" controls preload="metadata" aria-label="Preview: The 371 bus has been delayed."></audio></div><p>Delay recording: preview only. The current bus arrival feed does not confirm delays, so a countdown change never triggers a delay announcement.</p>
+<p id="recordingStatus" role="status">Add recordings to hear live 371 announcements. No synthetic voice is used for this route.</p>
+
+
+</dialog>
+
+<button id="celiaLauncher" class="celia-launcher" type="button"
+  aria-expanded="false" aria-controls="celiaDock">
+  <span class="celia-launcher-dot"></span>
+  <span>CELIA LIVE AUDIO</span>
+  <span class="celia-launcher-arrow">▲</span>
+</button>
+<aside id="celiaDock" class="celia-dock" aria-label="Celia Drummond live train announcements" hidden>
+  <div class="celia-dock-head">
+    <div>
+      <div class="celia-dock-kicker">LIVE RAILWAY AUDIO</div>
+      <div class="celia-dock-title">CELIA DRUMMOND</div>
+      <div class="celia-dock-subtitle">Kingston (KNG) · Norbiton (NBT)</div>
+    </div>
+    <button id="closeCeliaDock" class="celia-dock-close" type="button" aria-label="Close Celia player">×</button>
+  </div>
+  <div class="celia-dock-instructions">
+    <strong>FULL SWR-STYLE ANNOUNCEMENTS</strong>
+    <ol class="celia-setup-list">
+      <li>Set <strong>Station</strong> to <strong>Kingston (KNG)</strong> or <strong>Norbiton (NBT)</strong>.</li>
+      <li>Under announcement options, enable <strong>Announce via points</strong> so the announcement can include the calling-at stations.</li>
+      <li>Keep <strong>Next train</strong>, <strong>Approaching train</strong>, <strong>Standing train</strong> and <strong>Delays and cancellations</strong> enabled.</li>
+      <li>Choose <strong>Use Celia Drummond on all platforms</strong>. Leave <strong>Use old TOC names</strong> off to prefer the current operator name, <strong>South Western Railway (SWR)</strong>.</li>
+      <li>Press <strong>Start live trains</strong> to enable audio.</li>
+    </ol>
+    <div class="celia-callout">Expected style: “The [time] South Western Railway service to [destination], calling at [stations]…” The exact wording and calling points depend on the live feed and available announcement recordings.</div>
+  </div>
+  <div class="celia-dock-content">
+<section class="announcement-panel celia-panel" aria-label="Celia Drummond live train announcements">
+  <h3>CELIA DRUMMOND · LIVE TRAIN ANNOUNCEMENTS</h3>
+  <p>Use the official Rail Announcements live player below for authentic Celia Drummond railway audio. In its settings, choose <strong>Kingston (KNG)</strong> or <strong>Norbiton (NBT)</strong>, choose <strong>Celia Drummond on all platforms</strong>, then press <strong>Start live trains</strong>.</p>
+  <p>The live player automatically announces trains due within its four-minute announcement window, including approaching trains, standing trains, delays/cancellations and platform alterations where the live feed supplies that information.</p>
+  <div class="celia-actions">
+    <a href="https://www.railannouncements.co.uk/amey-live-train-announcements" target="_blank" rel="noopener noreferrer">OPEN CELIA LIVE PLAYER ↗</a>
+    <a href="https://www.railannouncements.co.uk/stations/amey-celia-drummond" target="_blank" rel="noopener noreferrer">CELIA VOICE LIBRARY ↗</a>
+  </div>
+  <iframe
+    class="celia-frame"
+    src="https://www.railannouncements.co.uk/amey-live-train-announcements"
+    title="Celia Drummond live train announcements"
+    loading="lazy"
+    allow="autoplay"
+    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <p class="celia-note"><strong>Important:</strong> This is a separate live announcement player, not a replacement for the dashboard's Kingston/Norbiton departure board. It uses its own train-data feed and is marked beta by its publisher. Its audio is for personal use only and must not be used as an official safety information system.</p>
+</section>
+  </div>
+  <div class="celia-dock-foot">
+    <span>Audio starts only after you press Start in the player.</span>
+    <a href="https://www.railannouncements.co.uk/amey-live-train-announcements"
+       target="_blank" rel="noopener noreferrer">OPEN IN NEW TAB ↗</a>
+  </div>
+</aside>
+\n
+<script src="announcements.js"></script>
 <script src="js/script.js"></script>
+
+<div id="echoTourHud" aria-live="off">
+  <span class="tour-label">AUTO TOUR</span>
+  <span class="tour-state" id="echoTourDirection">SCROLL DOWN</span>
+  <span class="tour-clock" id="echoTourTimer">00:00</span>
+  <button id="echoTourUp" class="echo-scroll-button" type="button" aria-label="Scroll up">▲</button>
+  <button id="echoTourDown" class="echo-scroll-button" type="button" aria-label="Scroll down">▼</button>
+  <button id="echoTourToggle" type="button">PAUSE</button>
+</div>
+
+
+
+
+
+
+\n
+
+
 </body>
-</html>
+</html><script async src="/.netlify/scripts/ar" data-netlify-deploy-id="6afa13529c76702786f19974" data-netlify-site-id="08dc3fc3-9976-46fa-9f71-584f98da4291" data-agent-runner-id="6afa11b4faedf5ec108cdf4d"></script>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="08dc3fc3-9976-46fa-9f71-584f98da4291" data-app-host="app.netlify.com" data-account-tier="free"></script>
