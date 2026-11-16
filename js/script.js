@@ -145,23 +145,88 @@ async function updateBusServiceHours(items) {
 }
 
 
-// Request a screen wake lock only while the command center is visible.
+// Keep the station board screen awake while the command center is visible.
+// Prefer the Screen Wake Lock API; fall back to a tiny muted looping video for
+// Amazon Silk / Fire OS and other browsers that lack wakeLock support.
 let screenWakeLock = null;
 let wakeLockPending = false;
+let silkWakeVideo = null;
+
+function ensureSilkWakeVideo() {
+  if (silkWakeVideo) return silkWakeVideo;
+  const video = document.createElement("video");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+  video.muted = true;
+  video.defaultMuted = true;
+  video.loop = true;
+  video.setAttribute("aria-hidden", "true");
+  video.tabIndex = -1;
+  // Hidden muted video from a live canvas stream. Playing media is the usual
+  // Silk / Fire OS workaround when navigator.wakeLock is missing.
+  const canvas = document.createElement("canvas");
+  canvas.width = 2;
+  canvas.height = 2;
+  const ctx = canvas.getContext("2d");
+  if (ctx) {
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, 2, 2);
+  }
+  if (typeof canvas.captureStream !== "function") return null;
+  video.srcObject = canvas.captureStream(1);
+  Object.assign(video.style, {
+    position: "fixed",
+    width: "1px",
+    height: "1px",
+    left: "-9999px",
+    top: "0",
+    opacity: "0",
+    pointerEvents: "none"
+  });
+  document.body.appendChild(video);
+  silkWakeVideo = video;
+  return video;
+}
+
+async function startSilkWakeFallback() {
+  if (document.visibilityState !== "visible" ||
+      !document.body.classList.contains("dashboard-entered")) return;
+  const video = ensureSilkWakeVideo();
+  if (!video) return;
+  try {
+    video.muted = true;
+    const play = video.play();
+    if (play && typeof play.then === "function") await play;
+  } catch (_) {
+    // Autoplay policies can still block until the next user gesture.
+  }
+}
+
+function stopSilkWakeFallback() {
+  if (!silkWakeVideo) return;
+  try { silkWakeVideo.pause(); } catch (_) {}
+}
+
 async function requestScreenWakeLock() {
-  if (!("wakeLock" in navigator) || screenWakeLock || wakeLockPending ||
+  if (screenWakeLock || wakeLockPending ||
       document.visibilityState !== "visible" ||
       !document.body.classList.contains("dashboard-entered")) return;
   wakeLockPending = true;
   try {
-    const lock = await navigator.wakeLock.request("screen");
-    screenWakeLock = lock;
-    lock.addEventListener("release", () => {
-      if (screenWakeLock === lock) screenWakeLock = null;
-    });
-    if (!document.body.classList.contains("dashboard-entered")) await lock.release();
+    if ("wakeLock" in navigator) {
+      const lock = await navigator.wakeLock.request("screen");
+      screenWakeLock = lock;
+      stopSilkWakeFallback();
+      lock.addEventListener("release", () => {
+        if (screenWakeLock === lock) screenWakeLock = null;
+      });
+      if (!document.body.classList.contains("dashboard-entered")) await lock.release();
+      return;
+    }
+    await startSilkWakeFallback();
   } catch (_) {
-    // Unsupported browsers and device power policies can refuse a wake lock.
+    // Unsupported wakeLock (e.g. Amazon Silk) — use the video fallback.
+    await startSilkWakeFallback();
   } finally {
     wakeLockPending = false;
   }
@@ -172,7 +237,10 @@ function resumeLiveDisplay() {
   refresh();
   refreshRail();
 }
-document.addEventListener("visibilitychange", resumeLiveDisplay);
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState !== "visible") stopSilkWakeFallback();
+  resumeLiveDisplay();
+});
 window.addEventListener("pageshow", resumeLiveDisplay);
 window.addEventListener("online", resumeLiveDisplay);
 window.addEventListener("announcementsenabled", resumeLiveDisplay);
@@ -678,6 +746,11 @@ setInterval(refreshRail, RAIL_REFRESH_MS);
    document.body.classList.remove('dashboard-entered');
    document.body.classList.add('intro-active');
    document.querySelector('.sign').inert=true;
+   stopSilkWakeFallback();
+   if (screenWakeLock) {
+     screenWakeLock.release().catch(()=>{});
+     screenWakeLock = null;
+   }
    document.getElementById('showDashboard').focus();
  });
  document.querySelector('.sign').inert=true;
