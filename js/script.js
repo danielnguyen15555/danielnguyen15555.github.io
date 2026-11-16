@@ -364,12 +364,16 @@ function railCallingPoints(item) {
   return typeof raw === "string" ? raw.split(/\s*(?:>|→|;|\|)\s*/).filter(Boolean) : [];
 }
 
-function renderRailStation(stationName, services) {
+function renderRailStation(stationName, services, crs) {
+  const stationCode = crs || (stationName === "Kingston" ? "KNG" : "NBT");
   if (!services.length) {
-    return `<div class="station-block"><div class="station-heading"><span>${stationName.toUpperCase()}</span><span>WATERLOO SERVICES</span></div><div class="rail-state">No Waterloo-bound trains are currently listed in this station feed.</div></div>`;
+    return `<section class="led-station" aria-label="${safe(stationName)} departures">
+      <header class="led-station-head"><span class="led-station-name">${safe(stationName.toUpperCase())}</span><span class="led-station-code">${stationCode}</span></header>
+      <div class="led-empty">NO WATERLOO-BOUND DEPARTURES CURRENTLY LISTED</div>
+    </section>`;
   }
 
-  const rows = services.map(item => {
+  const rows = services.slice(0, 6).map((item, index) => {
     const destination = railText(railFirst(item, [
       "destinationName", "destination", "dest", "towards", "to", "destinationStation"
     ], "London Waterloo")) || "London Waterloo";
@@ -388,12 +392,6 @@ function renderRailStation(stationName, services) {
     const platform = railText(railFirst(item, [
       "platform", "platformName", "platformNumber", "platform_number"
     ], "—")) || "—";
-    const operator = railText(railFirst(item, [
-      "operatorName", "operator", "toc", "trainOperator"
-    ], "South Western Railway")) || "South Western Railway";
-    const serviceName = railText(railFirst(item, [
-      "serviceName", "trainType", "category", "serviceType"
-    ], ""));
     const statusRaw = railText(railFirst(item, [
       "status", "delayReason", "message", "disruption"
     ], ""));
@@ -403,43 +401,47 @@ function renderRailStation(stationName, services) {
     const statusCombined = [statusRaw, expectedText, cancellationText].join(" ");
     const cancelled = item.cancelled === true || item.isCancelled === true ||
       item.cancellation === true || /cancel|not running/i.test(statusCombined);
-    const scheduledMinutes = scheduled.match(/^(\d{2}):(\d{2})$/);
-    const expectedMinutes = expected.match(/^(\d{2}):(\d{2})$/);
+    const scheduledMinutes = scheduled.match(/^(\\d{2}):(\\d{2})$/);
+    const expectedMinutes = expected.match(/^(\\d{2}):(\\d{2})$/);
     const explicitDelay = item.isDelayed === true || item.delayed === true ||
       /delay|late|mins? late|minutes? late/i.test(statusCombined) ||
       Number(railFirst(item, ["delayMinutes", "delay", "lateBy"], 0)) > 0;
     const delayed = !cancelled && (explicitDelay || (scheduledMinutes && expectedMinutes &&
       (Number(expectedMinutes[1]) * 60 + Number(expectedMinutes[2])) >
       (Number(scheduledMinutes[1]) * 60 + Number(scheduledMinutes[2]))));
-    const status = cancelled ? "CANCELLED" :
-      delayed ? (/\d+\s*(?:min|minute)/i.test(statusCombined) ? statusCombined.toUpperCase() : "DELAYED") :
-      expected === "On time" ? "ON TIME" :
-      statusRaw || "EXPECTED";
+    const status = cancelled ? "CANCELLED" : delayed ? "DELAYED" :
+      expected === "On time" ? "ON TIME" : (statusRaw || "EXPECTED");
+    const calls = railCallingPoints(item);
+    const callsText = calls.length ? calls.join("  ·  ") : "Calling points not supplied by live feed";
     window.transitAnnouncements.train({
       station: stationName,
       id: railText(railFirst(item, ["serviceId", "serviceID", "rid", "id"], scheduled + destination)),
       destination, scheduled,
-      expected: expectedText ? (/on\s*time/i.test(expectedText) ? "On time" : railTime(expectedRaw)) : "",
+      expected: expectedText ? (/on\\s*time/i.test(expectedText) ? "On time" : railTime(expectedRaw)) : "",
       platform, cancelled, status: statusRaw
     });
-    const calls = railCallingPoints(item);
-    const callsText = calls.length ? calls.join("  ›  ") : "";
-    return `<div class="train-row">
-      <div class="train-time">${safe(scheduled)}<small>SCHEDULED</small></div>
-      <div><div class="train-dest">${safe(destination)}</div><div class="train-sub">${safe(operator)}${serviceName ? " · " + safe(serviceName) : ""}</div></div>
-      <div class="train-expected">${safe(cancelled ? "—" : expected)}<small>LIVE</small></div>
-      <div class="train-platform">${safe(platform)}</div>
-      <div class="train-status ${cancelled || delayed ? "late" : (expected === "On time" ? "" : "unknown")}">${safe(status)}</div>
-      ${callsText ? `<div class="train-calls"><strong>CALLING AT</strong> &nbsp; ${safe(callsText)}</div>` : ""}
-    </div>`;
+    const marquee = calls.length > 4
+      ? `<div class="led-marquee"><span>${safe(callsText)}　 ·　 ${safe(callsText)}　 ·　</span></div>`
+      : `<div class="led-calling-text">${safe(callsText)}</div>`;
+    return `<article class="led-departure">
+      <div class="led-main-line">
+        <span class="led-time">${safe(scheduled)}</span>
+        <span class="led-destination">${safe(destination)}</span>
+        <span class="led-status ${cancelled || delayed ? "led-alert" : ""}">${safe(cancelled ? "CANCELLED" : expected)}</span>
+      </div>
+      <div class="led-detail-line">
+        <span class="led-platform">PLAT ${safe(platform)}</span>
+        <span class="led-calling-label">CALLING AT:</span>
+        ${marquee}
+      </div>
+    </article>`;
   }).join("");
 
-  return `<div class="station-block">
-    <div class="station-heading"><span>${stationName.toUpperCase()}</span><span>${services.length} WATERLOO SERVICES</span></div>
-    ${rows}
-  </div>`;
+  return `<section class="led-station" aria-label="${safe(stationName)} departures">
+    <header class="led-station-head"><span class="led-station-name">${safe(stationName.toUpperCase())}</span><span class="led-station-code">${stationCode}</span><span class="led-live-indicator">● LIVE</span></header>
+    <div class="led-departures">${rows}</div>
+  </section>`;
 }
-
 async function fetchRailStation(crs) {
   const url = `https://norbiton-train-proxy.danielnguyen15555.workers.dev/?station=${crs}`;
   return normalizeRailPayload(await fetchFeed(url));
@@ -551,7 +553,7 @@ async function refreshRail() {
       const services = allWaterlooServices.slice(0, 8);
       totalServicesSeen += allWaterlooServices.length;
       disruptionAlerts.push(...railDisruptionSummary(allWaterlooServices, name));
-      sections.push(renderRailStation(name, services));
+      sections.push(renderRailStation(name, services, index === 0 ? "KNG" : "NBT"));
     } else {
       sections.push(`<div class="station-block">
         <div class="station-heading"><span>${name.toUpperCase()}</span><span>WATERLOO SERVICES</span></div>
