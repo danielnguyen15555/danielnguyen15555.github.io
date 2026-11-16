@@ -441,7 +441,7 @@ function renderRailStation(stationName, services) {
 }
 
 async function fetchRailStation(crs) {
-  const url = `https://api.railinfo.uk/boards/${crs}/departures?limit=30`;
+  const url = `https://norbiton-train-proxy.danielnguyen15555.workers.dev/?station=${crs}`;
   return normalizeRailPayload(await fetchFeed(url));
 }
 
