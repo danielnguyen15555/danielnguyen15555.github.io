@@ -43,40 +43,41 @@ body{margin:0;min-height:100vh;background:#080a0c;color:#fff;font-family:Arial,H
 @media(max-width:560px){.top{flex-wrap:wrap}.clock-wrap{margin-left:0}.clock-label{text-align:left}.clock-digits{gap:3px}.digit{width:29px;height:43px;font-size:25px}.clock-colon{font-size:25px}}
 
 
-/* South Western Railway-style departure board */
-.rail-section{border-top:7px solid #30363b;background:#0b0e11}
+/* Amber dot-matrix railway departure boards */
+.rail-section{border-top:7px solid #30363b;background:#070707}
 .rail-head{padding:20px 26px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .rail-kicker{font-size:11px;letter-spacing:2px;color:#aeb5bb;font-weight:800}
 .rail-title{font-size:clamp(25px,4vw,36px);font-weight:900;letter-spacing:1.5px;color:#fff;margin-top:5px}
 .rail-route{font-size:13px;color:var(--amber);font-weight:800;letter-spacing:1.5px;margin-top:6px}
-.rail-board{padding:0 18px 18px}
-.rail-columns,.train-row{display:grid;grid-template-columns:80px minmax(130px,1fr) 82px 90px 100px;gap:10px;align-items:center}
-.rail-columns{padding:10px 12px;color:#aab1b7;font-size:10px;letter-spacing:1.3px;border-bottom:1px solid #454b50}
-.train-row{padding:13px 12px;border-bottom:1px solid #292f34;min-height:68px}
-.train-row:last-child{border-bottom:0}
-.train-time{font-family:"Courier New",monospace;font-size:21px;font-weight:900;color:#fff;white-space:nowrap}
-.train-time small{display:block;color:#8e989f;font:10px Arial,sans-serif;margin-top:3px;letter-spacing:1px}
-.train-dest{font-size:15px;font-weight:800;color:#fff}
-.train-sub{font-size:11px;color:#9ba4aa;margin-top:4px}
-.train-expected{font-family:"Courier New",monospace;font-size:18px;font-weight:900;color:var(--amber);white-space:nowrap}
-.train-platform{font-size:15px;font-weight:800;color:#fff;text-align:center}
-.train-status{font-size:11px;font-weight:800;color:var(--green);text-align:right}
-.train-status.late{color:#ff746a}
-.train-status.unknown{color:#aeb5bb}
-.train-calls{grid-column:1/-1;color:#aeb5bb;font-size:11px;line-height:1.6;padding:0 0 2px 0}
-.train-calls strong{color:#ffbf00;letter-spacing:1px}
-.station-block{border-bottom:1px solid #3a4147}
-.station-heading{display:flex;align-items:center;justify-content:space-between;padding:13px 12px 7px;color:#ffbf00;font-weight:900;letter-spacing:1.5px;font-size:13px}
-.station-heading span:last-child{font-size:10px;color:#9ca3a9;letter-spacing:1px}
+.led-rail-board{padding:0 12px 16px}
+.led-station-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.led-station{min-width:0;background:#020202;border:1px solid #282016;box-shadow:inset 0 0 22px #ff9d0010;padding:12px 14px 8px;overflow:hidden}
+.led-station-head{display:flex;align-items:center;gap:12px;padding:2px 0 10px;border-bottom:1px solid #5b3900}
+.led-station-name,.led-station-code,.led-live-indicator,.led-time,.led-destination,.led-status,.led-calling-label,.led-calling-text,.led-marquee,.led-platform,.led-empty{font-family:"Courier New",monospace;font-weight:900;letter-spacing:.7px;color:transparent;background-image:radial-gradient(circle,#ffae00 1.45px,transparent 1.75px);background-size:5px 5px;background-clip:text;-webkit-background-clip:text;text-shadow:0 0 7px #ff9d0040}
+.led-station-name{font-size:clamp(21px,2.5vw,30px);letter-spacing:2px}
+.led-station-code{font-size:13px;margin-left:auto}
+.led-live-indicator{font-size:10px;white-space:nowrap}
+.led-departure{padding:11px 0 12px;border-bottom:1px solid #382600;min-width:0}
+.led-departure:last-child{border-bottom:0}
+.led-main-line{display:grid;grid-template-columns:68px minmax(0,1fr) auto;gap:9px;align-items:center;min-width:0}
+.led-time{font-size:clamp(18px,2vw,25px);white-space:nowrap}
+.led-destination{font-size:clamp(13px,1.5vw,18px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.led-status{font-size:11px;white-space:nowrap}
+.led-status.led-alert{background-image:radial-gradient(circle,#ff554c 1.45px,transparent 1.75px);text-shadow:0 0 8px #ff302f80}
+.led-detail-line{display:flex;align-items:center;gap:8px;min-width:0;margin-top:7px;overflow:hidden}
+.led-platform{font-size:10px;white-space:nowrap}
+.led-calling-label{font-size:10px;white-space:nowrap}
+.led-calling-text,.led-marquee{font-size:11px;white-space:nowrap;min-width:0}
+.led-calling-text{overflow:hidden;text-overflow:ellipsis}
+.led-marquee{overflow:hidden;flex:1}
+.led-marquee span{display:inline-block;min-width:max-content;animation:ledTicker 24s linear infinite}
+@keyframes ledTicker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.led-empty{padding:24px 6px;text-align:center;font-size:12px;line-height:1.8}
+.led-offline{border-color:#69251f}
 .rail-state{padding:18px 12px;text-align:center;color:#aeb5bb;font-size:13px}
 .rail-foot{padding:10px 26px;background:#111519;border-top:1px solid #30363b;color:#929ba2;font-size:10px;display:flex;justify-content:space-between;gap:10px}
-@media(max-width:650px){
- .rail-head{padding:17px 15px 12px}.rail-board{padding:0 8px 10px}
- .rail-columns,.train-row{grid-template-columns:57px minmax(90px,1fr) 66px 43px 70px;gap:5px;padding-left:7px;padding-right:7px}
- .rail-columns{font-size:8px;letter-spacing:.5px}.train-time{font-size:16px}.train-dest{font-size:12px}.train-sub{font-size:10px}.train-expected{font-size:15px}.train-platform{font-size:12px}.train-status{font-size:9px}
- .rail-foot{padding:10px 15px;flex-wrap:wrap}
-}
-
+@media(max-width:760px){.led-station-grid{grid-template-columns:1fr}.led-station{padding:10px 12px}.led-main-line{grid-template-columns:60px minmax(0,1fr) auto}.led-time{font-size:20px}.led-destination{font-size:15px}}
+@media(max-width:650px){.rail-head{padding:17px 15px 12px}.led-rail-board{padding:0 7px 10px}.rail-foot{padding:10px 15px;flex-wrap:wrap}}
 /* Orange service-hours panel and flashing train warning */
 
 .bus-service-hours{margin:0 14px 14px;padding:12px 14px;background:#17130c;border:1px solid #a95d00;border-left:5px solid #ff8c00;border-radius:3px}
