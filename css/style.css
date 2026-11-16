@@ -1480,3 +1480,46 @@ body{background:#050814!important;background-image:radial-gradient(ellipse at 12
 .rail-alert{position:relative;z-index:1!important;border-radius:12px!important}
 @media(max-width:760px){.led-station-grid{grid-template-columns:1fr!important}.led-station:hover{transform:none!important}}
 @media(prefers-reduced-motion:reduce){.rail-section:before{animation:none!important}.led-station,.led-departure{transition:none!important}}
+
+
+/* Embedded Raildotmatrix live departure boards */
+.rail-live-iframe-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+  margin: 18px 0;
+}
+.rail-iframe-panel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(0, 190, 235, .28);
+  border-radius: 14px;
+  background: #071321;
+  box-shadow: 0 8px 28px rgba(0,0,0,.24);
+}
+.rail-iframe-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  color: #e9faff;
+  background: #09283c;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+.rail-iframe-title span {
+  color: #66e5ff;
+  font-size: .82em;
+}
+.rail-live-iframe {
+  display: block;
+  width: 100%;
+  height: 430px;
+  border: 0;
+  background: transparent;
+}
+@media (max-width: 760px) {
+  .rail-live-iframe-grid { grid-template-columns: 1fr; }
+  .rail-live-iframe { height: 390px; }
+}
