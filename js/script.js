@@ -425,9 +425,9 @@ function renderRailStation(stationName, services, crs) {
       : `<div class="led-calling-text">${safe(callsText)}</div>`;
     return `<article class="led-departure">
       <div class="led-main-line">
-        <span class="led-time">${safe(scheduled)}</span>
+        <span class="led-time-wrap"><small class="led-time-label">DUE</small><span class="led-time">${safe(scheduled)}</span></span>
         <span class="led-destination">${safe(destination)}</span>
-        <span class="led-status ${cancelled || delayed ? "led-alert" : ""}">${safe(cancelled ? "CANCELLED" : expected)}</span>
+        <span class="led-expected-wrap"><small class="led-time-label">EXPECTED</small><span class="led-status ${cancelled || delayed ? "led-alert" : ""}">${safe(cancelled ? "CANCELLED" : expected)}</span></span>
       </div>
       <div class="led-detail-line">
         <span class="led-platform">PLAT ${safe(platform)}</span>
