@@ -43,50 +43,52 @@ body{margin:0;min-height:100vh;background:#080a0c;color:#fff;font-family:Arial,H
 @media(max-width:560px){.top{flex-wrap:wrap}.clock-wrap{margin-left:0}.clock-label{text-align:left}.clock-digits{gap:3px}.digit{width:29px;height:43px;font-size:25px}.clock-colon{font-size:25px}}
 
 
-/* National Rail-inspired electronic departure board */
-.rail-section{border-top:7px solid #30363b;background:#070707}
+/* National Rail-style station departure display */
+.rail-section{border-top:8px solid #f4c400;background:#080808}
 .rail-head{padding:20px 26px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.rail-kicker{font-size:11px;letter-spacing:2px;color:#aeb5bb;font-weight:800}
+.rail-kicker{font-size:11px;letter-spacing:2px;color:#d0d0d0;font-weight:800}
 .rail-title{font-size:clamp(25px,4vw,36px);font-weight:900;letter-spacing:1.5px;color:#fff;margin-top:5px}
-.rail-route{font-size:13px;color:var(--amber);font-weight:800;letter-spacing:1.5px;margin-top:6px}
+.rail-route{font-size:13px;color:#ffd400;font-weight:900;letter-spacing:1.5px;margin-top:6px}
 .led-rail-board{padding:0 12px 16px}
-.led-station-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.led-station{min-width:0;background:#050505;border:1px solid #4b4b4b;padding:12px 14px 8px;overflow:hidden}
-.led-station-head{display:flex;align-items:center;gap:12px;padding:2px 0 10px;border-bottom:2px solid #d5a900}
-.led-station-name,.led-station-code,.led-live-indicator,.led-time,.led-destination,.led-status,.led-calling-label,.led-calling-text,.led-marquee,.led-platform,.led-empty{font-family:Arial,Helvetica,sans-serif;font-weight:800;letter-spacing:.25px;color:#ffcf33;text-shadow:none;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
-.led-station-name{font-size:clamp(21px,2.5vw,30px);letter-spacing:1px;color:#fff}
-.led-station-code{font-size:12px;margin-left:auto;color:#d7d7d7}
-.led-live-indicator{font-size:10px;white-space:nowrap;color:#8ee28e}
-.led-column-head{display:grid;grid-template-columns:72px minmax(0,1fr) 64px auto;gap:8px;padding:9px 0 7px;border-bottom:1px solid #777;color:#e8e8e8;font:700 9px Arial,sans-serif;letter-spacing:.8px}
+.led-station-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.led-station{min-width:0;background:#030303;border:2px solid #5b5b5b;padding:0 14px 8px;overflow:hidden;box-shadow:inset 0 0 0 2px #171717}
+.led-station-head{display:flex;align-items:center;gap:12px;margin:0 -14px 0;padding:10px 14px;background:#f4c400;border-bottom:3px solid #d5a900}
+.led-station-name,.led-station-code,.led-live-indicator{font-family:Arial,Helvetica,sans-serif;font-weight:900;letter-spacing:.5px;color:#080808;text-shadow:none}
+.led-station-name{font-size:clamp(20px,2.3vw,28px);letter-spacing:1px}
+.led-station-code{font-size:12px;margin-left:auto;color:#171717}
+.led-live-indicator{font-size:10px;white-space:nowrap;color:#135b20}
+.led-column-head{display:grid;grid-template-columns:76px minmax(0,1fr) 64px auto;gap:8px;padding:11px 0 9px;border-bottom:2px solid #aaa;color:#f4c400;font:900 10px Arial,sans-serif;letter-spacing:1px}
 .led-column-head span:nth-child(3){text-align:center}
 .led-column-head span:last-child{text-align:right}
-.led-departure{padding:10px 0 9px;border-bottom:1px solid #3b3b3b;min-width:0}
+.led-departure{padding:11px 0 10px;border-bottom:1px solid #454545;min-width:0}
 .led-departure:last-child{border-bottom:0}
-.led-main-line{display:grid;grid-template-columns:72px minmax(0,1fr) 64px auto;gap:8px;align-items:center;min-width:0}
-.led-time-wrap,.led-expected-wrap{display:flex;flex-direction:column;gap:3px;min-width:0}
+.led-main-line{display:grid;grid-template-columns:76px minmax(0,1fr) 64px auto;gap:8px;align-items:center;min-width:0}
+.led-time-wrap,.led-expected-wrap{display:flex;flex-direction:column;gap:4px;min-width:0}
 .led-expected-wrap{align-items:flex-end;text-align:right}
-.led-time{font-size:clamp(17px,1.9vw,23px);white-space:nowrap}
-.led-countdown{font:800 clamp(10px,1.1vw,12px) Arial,Helvetica,sans-serif;letter-spacing:.2px;color:#fff;white-space:nowrap}
+.led-time,.led-destination,.led-status,.led-platform,.led-countdown,.led-calling-label,.led-calling-text,.led-marquee,.led-empty{font-family:Arial,Helvetica,sans-serif;font-weight:800;text-shadow:none;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+.led-time{font-size:clamp(19px,2vw,25px);letter-spacing:.5px;color:#ffd400;white-space:nowrap}
+.led-countdown{font-size:11px;letter-spacing:.2px;color:#fff;white-space:nowrap}
 .led-countdown.led-alert{color:#ff625b}
-.led-destination{font-size:clamp(12px,1.35vw,16px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.led-platform{font-size:clamp(12px,1.2vw,14px);text-align:center;white-space:nowrap}
-.led-status{font-size:clamp(11px,1.25vw,14px);white-space:nowrap;color:#ffcf33}
+.led-destination{font-size:clamp(13px,1.45vw,17px);letter-spacing:.1px;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.led-platform{font-size:clamp(13px,1.2vw,15px);color:#ffd400;text-align:center;white-space:nowrap}
+.led-status{font-size:clamp(11px,1.2vw,14px);letter-spacing:.3px;color:#ffd400;white-space:nowrap}
 .led-status.led-alert{color:#ff625b}
-.led-detail-line{display:flex;align-items:center;gap:8px;min-width:0;margin-top:6px;overflow:hidden}
-.led-calling-label{font-size:9px;white-space:nowrap;color:#c9c9c9}
-.led-calling-text,.led-marquee{font-size:10px;white-space:nowrap;min-width:0;color:#e8c95c}
+.led-detail-line{display:flex;align-items:center;gap:8px;min-width:0;margin-top:7px;overflow:hidden}
+.led-calling-label{font-size:9px;letter-spacing:.8px;white-space:nowrap;color:#bdbdbd}
+.led-calling-text,.led-marquee{font-size:10px;letter-spacing:.2px;white-space:nowrap;min-width:0;color:#e6d38a}
 .led-calling-text{overflow:hidden;text-overflow:ellipsis}
 .led-marquee{overflow:hidden;flex:1}
 .led-marquee span{display:inline-block;min-width:max-content;animation:ledTicker 24s linear infinite}
 @keyframes ledTicker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.led-empty{padding:24px 6px;text-align:center;font-size:12px;line-height:1.8}
-.led-offline{border-color:#69251f}
-.rail-state{padding:18px 12px;text-align:center;color:#aeb5bb;font-size:13px}
-.rail-foot{padding:10px 26px;background:#111519;border-top:1px solid #30363b;color:#929ba2;font-size:10px;display:flex;justify-content:space-between;gap:10px}
+.led-empty{padding:24px 6px;text-align:center;font-size:12px;line-height:1.8;color:#ffd400}
+.led-offline{border-color:#9c332c}
+.rail-state{padding:18px 12px;text-align:center;color:#d0d0d0;font-size:13px}
+.rail-foot{padding:10px 26px;background:#151515;border-top:1px solid #555;color:#bdbdbd;font-size:10px;display:flex;justify-content:space-between;gap:10px}
 @media(max-width:760px){
  .led-station-grid{grid-template-columns:1fr}
- .led-station{padding:10px 12px}
- .led-column-head,.led-main-line{grid-template-columns:62px minmax(0,1fr) 52px auto;gap:6px}
+ .led-station{padding:0 10px 7px}
+ .led-station-head{margin:0 -10px;padding:9px 10px}
+ .led-column-head,.led-main-line{grid-template-columns:66px minmax(0,1fr) 50px auto;gap:6px}
  .led-time{font-size:19px}
  .led-destination{font-size:14px}
  .led-platform{font-size:12px}
