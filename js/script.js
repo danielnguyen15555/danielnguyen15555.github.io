@@ -401,8 +401,8 @@ function renderRailStation(stationName, services, crs) {
     const statusCombined = [statusRaw, expectedText, cancellationText].join(" ");
     const cancelled = item.cancelled === true || item.isCancelled === true ||
       item.cancellation === true || /cancel|not running/i.test(statusCombined);
-    const scheduledMinutes = scheduled.match(/^(\\d{2}):(\\d{2})$/);
-    const expectedMinutes = expected.match(/^(\\d{2}):(\\d{2})$/);
+    const scheduledMinutes = scheduled.match(/^(\d{2}):(\d{2})$/);
+    const expectedMinutes = expected.match(/^(\d{2}):(\d{2})$/);
     const explicitDelay = item.isDelayed === true || item.delayed === true ||
       /delay|late|mins? late|minutes? late/i.test(statusCombined) ||
       Number(railFirst(item, ["delayMinutes", "delay", "lateBy"], 0)) > 0;
@@ -417,7 +417,7 @@ function renderRailStation(stationName, services, crs) {
       station: stationName,
       id: railText(railFirst(item, ["serviceId", "serviceID", "rid", "id"], scheduled + destination)),
       destination, scheduled,
-      expected: expectedText ? (/on\\s*time/i.test(expectedText) ? "On time" : railTime(expectedRaw)) : "",
+      expected: expectedText ? (/on\s*time/i.test(expectedText) ? "On time" : railTime(expectedRaw)) : "",
       platform, cancelled, status: statusRaw
     });
     const marquee = calls.length > 4
@@ -555,10 +555,10 @@ async function refreshRail() {
       disruptionAlerts.push(...railDisruptionSummary(allWaterlooServices, name));
       sections.push(renderRailStation(name, services, index === 0 ? "KNG" : "NBT"));
     } else {
-      sections.push(`<div class="station-block">
-        <div class="station-heading"><span>${name.toUpperCase()}</span><span>WATERLOO SERVICES</span></div>
-        <div class="rail-state">Live departures temporarily unavailable (${safe(result.reason?.message || "feed error")}).</div>
-      </div>`);
+      sections.push(`<section class="led-station led-offline" aria-label="${name} departures">
+        <header class="led-station-head"><span class="led-station-name">${name.toUpperCase()}</span><span class="led-station-code">${index === 0 ? "KNG" : "NBT"}</span></header>
+        <div class="led-empty">LIVE DEPARTURE FEED UNAVAILABLE</div>
+      </section>`);
     }
   });
 
