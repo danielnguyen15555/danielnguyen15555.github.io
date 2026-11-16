@@ -364,6 +364,34 @@ function railCallingPoints(item) {
   return typeof raw === "string" ? raw.split(/\s*(?:>|→|;|\|)\s*/).filter(Boolean) : [];
 }
 
+function updateRailCountdowns() {
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/London", hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+  }).formatToParts(now);
+  const hour = Number(parts.find(part => part.type === "hour").value);
+  const minute = Number(parts.find(part => part.type === "minute").value);
+  const currentMinutes = hour * 60 + minute;
+
+  document.querySelectorAll(".led-countdown[data-departure-time]").forEach(node => {
+    const match = node.dataset.departureTime.match(/^(\\d{2}):(\\d{2})$/);
+    if (!match) return;
+    const departureMinutes = Number(match[1]) * 60 + Number(match[2]);
+    let remaining = departureMinutes - currentMinutes;
+    if (remaining < -720) remaining += 1440;
+    if (remaining < 0) {
+      node.textContent = "DEPARTED";
+      node.classList.add("led-alert");
+    } else if (remaining === 0) {
+      node.textContent = "DUE NOW";
+      node.classList.remove("led-alert");
+    } else {
+      node.textContent = `IN ${remaining} MIN${remaining === 1 ? "" : "S"}`;
+      node.classList.remove("led-alert");
+    }
+  });
+}
+
 function renderRailStation(stationName, services, crs) {
   const stationCode = crs || (stationName === "Kingston" ? "KNG" : "NBT");
   if (!services.length) {
@@ -427,7 +455,7 @@ function renderRailStation(stationName, services, crs) {
       <div class="led-main-line">
         <span class="led-time-wrap"><small class="led-time-label">DUE</small><span class="led-time">${safe(scheduled)}</span></span>
         <span class="led-destination">${safe(destination)}</span>
-        <span class="led-expected-wrap"><small class="led-time-label">EXPECTED</small><span class="led-status ${cancelled || delayed ? "led-alert" : ""}">${safe(cancelled ? "CANCELLED" : expected)}</span></span>
+        <span class="led-expected-wrap"><small class="led-time-label">EXPECTED</small><span class="led-status ${cancelled || delayed ? "led-alert" : ""}">${safe(cancelled ? "CANCELLED" : expected)}</span><span class="led-countdown" data-departure-time="${safe(expected.match(/^\\d{2}:\\d{2}$/) ? expected : scheduled)}">${safe(cancelled ? "CANCELLED" : "")}</span></span>
       </div>
       <div class="led-detail-line">
         <span class="led-platform">PLAT ${safe(platform)}</span>
@@ -563,6 +591,7 @@ async function refreshRail() {
   });
 
   railEl.innerHTML = sections.join("");
+  updateRailCountdowns();
   updateSWRServiceStatus(results.every(result => result.status === "fulfilled"),
     totalServicesSeen, disruptionAlerts);
 
@@ -606,6 +635,8 @@ async function refreshRail() {
 
 refreshRail();
 setInterval(refreshRail, RAIL_REFRESH_MS);
+updateRailCountdowns();
+setInterval(updateRailCountdowns, 30000);
 
 
 // Echo Show 8 hands-free tour: smoothly scroll DOWN and UP, with a visible timer.
