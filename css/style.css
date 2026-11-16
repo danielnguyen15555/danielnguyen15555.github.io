@@ -64,6 +64,8 @@ body{margin:0;min-height:100vh;background:#080a0c;color:#fff;font-family:Arial,H
 .led-time-label{font:700 9px Arial,sans-serif;letter-spacing:1.2px;color:#c18b32}
 .led-expected-wrap{align-items:flex-end;text-align:right}
 .led-expected-wrap .led-status{font-size:clamp(13px,1.5vw,17px)}
+.led-countdown{font:800 clamp(11px,1.25vw,14px) Arial,Helvetica,sans-serif;letter-spacing:.5px;color:#ffcf55;white-space:nowrap}
+.led-countdown.led-alert{color:#ff554c}
 .led-time{font-size:clamp(18px,2vw,25px);white-space:nowrap}
 .led-destination{font-size:clamp(13px,1.5vw,18px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .led-status{font-size:11px;white-space:nowrap}
