@@ -374,19 +374,19 @@ function updateRailCountdowns() {
   const currentMinutes = hour * 60 + minute;
 
   document.querySelectorAll(".led-countdown[data-departure-time]").forEach(node => {
-    const match = node.dataset.departureTime.match(/^(\d{2}):(\d{2})$/);
-    if (!match) return;
-    const departureMinutes = Number(match[1]) * 60 + Number(match[2]);
+    const timeParts = node.dataset.departureTime.split(":").map(Number);
+    if (timeParts.length !== 2 || !timeParts.every(Number.isFinite) || timeParts[0] > 23 || timeParts[1] > 59) return;
+    const departureMinutes = timeParts[0] * 60 + timeParts[1];
     let remaining = departureMinutes - currentMinutes;
     if (remaining < -720) remaining += 1440;
     if (remaining < 0) {
       node.textContent = "DEPARTED";
       node.classList.add("led-alert");
     } else if (remaining === 0) {
-      node.textContent = "DUE NOW";
+      node.textContent = "DUE";
       node.classList.remove("led-alert");
     } else {
-      node.textContent = `IN ${remaining} MIN${remaining === 1 ? "" : "S"}`;
+      node.textContent = `${remaining} MIN`;
       node.classList.remove("led-alert");
     }
   });
@@ -453,7 +453,7 @@ function renderRailStation(stationName, services, crs) {
       : `<div class="led-calling-text">${safe(callsText)}</div>`;
     return `<article class="led-departure">
       <div class="led-main-line">
-        <span class="led-time-wrap"><span class="led-time">${safe(scheduled)}</span><span class="led-countdown" data-departure-time="${safe(expected.match(/^\d{2}:\d{2}$/) ? expected : scheduled)}">${safe(cancelled ? "CANCELLED" : "")}</span></span>
+        <span class="led-time-wrap"><span class="led-time">${safe(scheduled)}</span><span class="led-countdown" data-departure-time="${safe(expected !== "On time" && expected.includes(":") ? expected : scheduled)}">${safe(cancelled ? "CANCELLED" : "")}</span></span>
         <span class="led-destination">${safe(destination)}</span>
         <span class="led-platform">${safe(platform)}</span>
         <span class="led-expected-wrap"><span class="led-status ${cancelled || delayed ? "led-alert" : ""}">${safe(cancelled ? "CANCELLED" : expected)}</span></span>
