@@ -453,13 +453,13 @@ function renderRailStation(stationName, services, crs) {
       : `<div class="led-calling-text">${safe(callsText)}</div>`;
     return `<article class="led-departure">
       <div class="led-main-line">
-        <span class="led-time-wrap"><small class="led-time-label">DUE</small><span class="led-time">${safe(scheduled)}</span></span>
+        <span class="led-time-wrap"><span class="led-time">${safe(scheduled)}</span><span class="led-countdown" data-departure-time="${safe(expected.match(/^\\d{2}:\\d{2}$/) ? expected : scheduled)}">${safe(cancelled ? "CANCELLED" : "")}</span></span>
         <span class="led-destination">${safe(destination)}</span>
-        <span class="led-expected-wrap"><small class="led-time-label">EXPECTED</small><span class="led-status ${cancelled || delayed ? "led-alert" : ""}">${safe(cancelled ? "CANCELLED" : expected)}</span><span class="led-countdown" data-departure-time="${safe(expected.match(/^\\d{2}:\\d{2}$/) ? expected : scheduled)}">${safe(cancelled ? "CANCELLED" : "")}</span></span>
+        <span class="led-platform">${safe(platform)}</span>
+        <span class="led-expected-wrap"><span class="led-status ${cancelled || delayed ? "led-alert" : ""}">${safe(cancelled ? "CANCELLED" : expected)}</span></span>
       </div>
       <div class="led-detail-line">
-        <span class="led-platform">PLAT ${safe(platform)}</span>
-        <span class="led-calling-label">CALLING AT:</span>
+        <span class="led-calling-label">CALLING AT</span>
         ${marquee}
       </div>
     </article>`;
@@ -467,6 +467,7 @@ function renderRailStation(stationName, services, crs) {
 
   return `<section class="led-station" aria-label="${safe(stationName)} departures">
     <header class="led-station-head"><span class="led-station-name">${safe(stationName.toUpperCase())}</span><span class="led-station-code">${stationCode}</span><span class="led-live-indicator">● LIVE</span></header>
+    <div class="led-column-head"><span>TIME</span><span>DESTINATION</span><span>PLATFORM</span><span>EXPECTED</span></div>
     <div class="led-departures">${rows}</div>
   </section>`;
 }
