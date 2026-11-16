@@ -1425,3 +1425,58 @@ body.station-mode .train-row { min-height:90px; }
 .led-empty{color:#ffd400!important}
 .rail-foot{background:#151515!important;color:#bbb!important;border-color:#555!important}
 @media(max-width:760px){.led-station-grid{grid-template-columns:1fr!important}}
+
+
+/* ═══ TRANSIT // NEO-NIGHTFALL — immersive station interface ═══ */
+:root{color-scheme:dark}
+body{background:#050814!important;background-image:radial-gradient(ellipse at 12% 5%,#15355b55 0,transparent 38%),radial-gradient(ellipse at 88% 28%,#49216b44 0,transparent 34%),linear-gradient(145deg,#050814,#090d1b 55%,#080716)!important}
+.sign{border:1px solid #5bdcff44!important;border-radius:22px!important;background:linear-gradient(145deg,#101b30f5,#0a1020f5 60%,#15102af5)!important;box-shadow:0 0 0 1px #ffffff08,inset 0 1px #ffffff18,0 28px 90px #000b,0 0 65px #13cfff18!important;overflow:hidden}
+.sign:before{opacity:.22!important;background:repeating-linear-gradient(0deg,transparent 0 3px,#75eaff08 4px)!important;pointer-events:none}
+.rail-section{position:relative!important;margin:12px 0 0!important;padding-bottom:4px!important;border:1px solid #49dfff66!important;border-top:2px solid #6deaff!important;border-radius:17px!important;background:linear-gradient(145deg,#0b1b2d,#080f1e 58%,#130e27)!important;box-shadow:inset 0 1px #ffffff12,0 14px 45px #0008,0 0 30px #17d9ff12!important;overflow:hidden}
+.rail-section:before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:linear-gradient(115deg,transparent 0 35%,#64eaff08 50%,transparent 65%);background-size:220% 100%;animation:neoSweep 12s linear infinite}
+@keyframes neoSweep{to{background-position:-220% 0}}
+.rail-head{position:relative!important;z-index:1;background:linear-gradient(100deg,#0c2940,#111c39 58%,#291742)!important;border-bottom:1px solid #56dfff55!important}
+.rail-kicker{color:#8cb6cf!important;letter-spacing:2.5px!important}
+.rail-title{color:#f4fcff!important;text-shadow:0 0 18px #49dfff66,0 0 40px #8a68ff33!important;letter-spacing:2px!important}
+.rail-route{color:#65eaff!important;text-shadow:0 0 12px #24dfff66!important}
+.rail-head .live{border:1px solid #51e8c477!important;border-radius:999px!important;padding:8px 13px!important;background:#06251f99!important;box-shadow:0 0 22px #22e8aa18!important}
+.rail-head .live span:last-child{color:#83ffd1!important;letter-spacing:1.5px!important;font-weight:900}
+#railDot{box-shadow:0 0 12px #48ffc5!important}
+.swr-service-status{position:relative;z-index:1!important;margin:12px clamp(8px,1.4vw,20px)!important;border:1px solid #48d9ff66!important;border-radius:13px!important;background:linear-gradient(110deg,#102a3d,#121b36 65%,#201637)!important;box-shadow:0 8px 28px #0005,inset 0 1px #ffffff12!important}
+.swr-status-kicker{color:#7dddf2!important;letter-spacing:1.7px!important}
+.swr-status-title{color:#fff!important;text-shadow:0 0 14px #55dfff44!important}
+.swr-status-detail{color:#b1c8dc!important}
+.swr-status-link{color:#6deaff!important}
+.rail-hours{position:relative;z-index:1!important;margin:12px clamp(8px,1.4vw,20px)!important;border:1px solid #8a71ff66!important;border-radius:14px!important;background:linear-gradient(120deg,#101f36,#17132e)!important;box-shadow:inset 0 1px #ffffff12,0 8px 25px #0004!important}
+.rail-hours-heading{color:#9dceff!important;letter-spacing:2px!important}
+.rail-hours-card{border:1px solid #4c76a366!important;border-radius:10px!important;background:linear-gradient(145deg,#162d49,#111b33)!important}
+.rail-hours-station{color:#f2fbff!important}
+.rail-hours-station span{color:#73e8ff!important}
+.rail-hours-times strong{color:#ffe08a!important;text-shadow:0 0 12px #ffc85b44!important}
+.rail-board{position:relative;z-index:1!important}
+.led-station-grid{gap:16px!important}
+.led-station{position:relative!important;border:1px solid #4edcff88!important;border-radius:14px!important;background:linear-gradient(160deg,#091727,#070d19 65%,#111027)!important;box-shadow:inset 0 1px #ffffff15,0 12px 34px #0007,0 0 24px #24cfff12!important;padding:0 15px 10px!important;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease!important}
+.led-station:hover{transform:translateY(-3px)!important;border-color:#a17bff!important;box-shadow:inset 0 1px #ffffff20,0 16px 40px #0009,0 0 30px #8c69ff2a!important}
+.led-station-head{margin:0 -15px 0!important;padding:13px 15px!important;background:linear-gradient(100deg,#123a55,#192b50 60%,#38234f)!important;border-bottom:1px solid #5bdfff88!important}
+.led-station-name{color:#f4fcff!important;font-size:clamp(21px,2.4vw,30px)!important;letter-spacing:1.5px!important;text-shadow:0 0 16px #4fdfff55!important}
+.led-station-code{color:#82eaff!important;font-size:12px!important;letter-spacing:1.5px!important}
+.led-live-indicator{color:#78ffd1!important;text-shadow:0 0 10px #39ffb477!important}
+.led-column-head{color:#77dff7!important;border-bottom:1px solid #3b7690!important;letter-spacing:1.2px!important}
+.led-departure{position:relative!important;padding:13px 0 11px!important;border-bottom:1px solid #29435a!important;transition:background .2s ease!important}
+.led-departure:before{content:"";position:absolute;left:-15px;top:0;bottom:0;width:3px;background:linear-gradient(#5beaff,#9c78ff);opacity:0;transition:opacity .2s ease}
+.led-departure:hover{background:linear-gradient(90deg,#17334d88,transparent)!important}
+.led-departure:hover:before{opacity:1}
+.led-time{color:#ffe18a!important;font-size:clamp(20px,2.1vw,27px)!important;text-shadow:0 0 14px #ffc65b44!important}
+.led-countdown{color:#7dffd5!important;font-size:11px!important;letter-spacing:.7px!important}
+.led-destination{color:#f3f8ff!important;font-size:clamp(13px,1.5vw,17px)!important}
+.led-platform{color:#75eaff!important}
+.led-status{color:#ffe18a!important}
+.led-status.led-alert,.led-countdown.led-alert{color:#ff777e!important;text-shadow:0 0 12px #ff465a66!important}
+.led-detail-line{border-top:1px dashed #31516b!important;padding-top:7px!important}
+.led-calling-label{color:#7dd8ed!important;letter-spacing:1px!important}
+.led-calling-text,.led-marquee{color:#b2c7db!important}
+.led-empty{color:#ffda85!important}
+.rail-foot{position:relative;z-index:1!important;margin:8px 12px 0!important;border:1px solid #34546b!important;border-radius:9px!important;background:#091525!important;color:#91b2c9!important}
+.rail-alert{position:relative;z-index:1!important;border-radius:12px!important}
+@media(max-width:760px){.led-station-grid{grid-template-columns:1fr!important}.led-station:hover{transform:none!important}}
+@media(prefers-reduced-motion:reduce){.rail-section:before{animation:none!important}.led-station,.led-departure{transition:none!important}}
