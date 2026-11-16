@@ -129,17 +129,17 @@ async function updateBusServiceHours(items) {
   const routes = [...new Map((items || []).filter(x => x && (x.lineId || x.lineName))
     .map(x => [String(x.lineId || x.lineName), {id:String(x.lineId || x.lineName),name:String(x.lineName || x.lineId)}])).values()].slice(0,8);
   if (!routes.length) {
-    busHoursEl.innerHTML = '<div class="bus-hours-title">BUS SERVICE HOURS</div><div class="bus-hours-state">Route timetable information will appear when arrivals are available.</div>';
+    busHoursEl.innerHTML = '<div class="bus-hours-title">TFL OPENING / CLOSING TIMES</div><div class="bus-hours-state">Route timetable information will appear when arrivals are available.</div>';
     return;
   }
-  busHoursEl.innerHTML = '<div class="bus-hours-title">FIRST &amp; LAST SCHEDULED BUSES</div><div class="bus-hours-state">Loading route timetables…</div>';
+  busHoursEl.innerHTML = '<div class="bus-hours-title">TFL OPENING / CLOSING TIMES</div><div class="bus-hours-state">Loading route timetables…</div>';
   const results = await Promise.allSettled(routes.map(async route => ({...route,...await getBusHours(route.id)})));
   const valid = results.filter(r => r.status === "fulfilled" && (r.value.first || r.value.last)).map(r => r.value);
   if (!valid.length) {
-    busHoursEl.innerHTML = '<div class="bus-hours-title">FIRST &amp; LAST SCHEDULED BUSES</div><div class="bus-hours-state">TfL timetable times are not available for these routes at this stop. Live arrivals are shown above.</div>';
+    busHoursEl.innerHTML = '<div class="bus-hours-title">TFL OPENING / CLOSING TIMES</div><div class="bus-hours-state">TfL timetable times are not available for these routes at this stop. Live arrivals are shown above.</div>';
     return;
   }
-  busHoursEl.innerHTML = '<div class="bus-hours-title">FIRST &amp; LAST SCHEDULED BUSES</div><div class="bus-hours-grid">' +
+  busHoursEl.innerHTML = '<div class="bus-hours-title">TFL OPENING / CLOSING TIMES</div><div class="bus-hours-grid">' +
     valid.map(r => `<div class="bus-hours-item"><div class="bus-hours-route">ROUTE ${safe(r.name)}</div><div class="bus-hours-times">FIRST ${safe(r.first || "—")}<br>LAST&nbsp; ${safe(r.last || "—")}</div></div>`).join("") +
     '</div><div class="bus-hours-state" style="margin-top:7px">Scheduled timetable span · may vary by day</div>';
 }
