@@ -60,6 +60,10 @@ body{margin:0;min-height:100vh;background:#080a0c;color:#fff;font-family:Arial,H
 .led-departure{padding:11px 0 12px;border-bottom:1px solid #382600;min-width:0}
 .led-departure:last-child{border-bottom:0}
 .led-main-line{display:grid;grid-template-columns:68px minmax(0,1fr) auto;gap:9px;align-items:center;min-width:0}
+.led-time-wrap,.led-expected-wrap{display:flex;flex-direction:column;gap:3px;min-width:0}
+.led-time-label{font:700 9px Arial,sans-serif;letter-spacing:1.2px;color:#c18b32}
+.led-expected-wrap{align-items:flex-end;text-align:right}
+.led-expected-wrap .led-status{font-size:clamp(13px,1.5vw,17px)}
 .led-time{font-size:clamp(18px,2vw,25px);white-space:nowrap}
 .led-destination{font-size:clamp(13px,1.5vw,18px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .led-status{font-size:11px;white-space:nowrap}
