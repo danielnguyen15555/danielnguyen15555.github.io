@@ -43,7 +43,7 @@ body{margin:0;min-height:100vh;background:#080a0c;color:#fff;font-family:Arial,H
 @media(max-width:560px){.top{flex-wrap:wrap}.clock-wrap{margin-left:0}.clock-label{text-align:left}.clock-digits{gap:3px}.digit{width:29px;height:43px;font-size:25px}.clock-colon{font-size:25px}}
 
 
-/* Amber dot-matrix railway departure boards */
+/* National Rail-inspired electronic departure board */
 .rail-section{border-top:7px solid #30363b;background:#070707}
 .rail-head{padding:20px 26px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .rail-kicker{font-size:11px;letter-spacing:2px;color:#aeb5bb;font-weight:800}
@@ -51,29 +51,30 @@ body{margin:0;min-height:100vh;background:#080a0c;color:#fff;font-family:Arial,H
 .rail-route{font-size:13px;color:var(--amber);font-weight:800;letter-spacing:1.5px;margin-top:6px}
 .led-rail-board{padding:0 12px 16px}
 .led-station-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.led-station{min-width:0;background:#020202;border:1px solid #282016;padding:12px 14px 8px;overflow:hidden}
-.led-station-head{display:flex;align-items:center;gap:12px;padding:2px 0 10px;border-bottom:1px solid #5b3900}
-.led-station-name,.led-station-code,.led-live-indicator,.led-time,.led-destination,.led-status,.led-calling-label,.led-calling-text,.led-marquee,.led-platform,.led-empty{font-family:Arial,Helvetica,sans-serif;font-weight:800;letter-spacing:.4px;color:#ffb000;text-shadow:none;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
-.led-station-name{font-size:clamp(21px,2.5vw,30px);letter-spacing:2px}
-.led-station-code{font-size:13px;margin-left:auto}
-.led-live-indicator{font-size:10px;white-space:nowrap}
-.led-departure{padding:11px 0 12px;border-bottom:1px solid #382600;min-width:0}
+.led-station{min-width:0;background:#050505;border:1px solid #4b4b4b;padding:12px 14px 8px;overflow:hidden}
+.led-station-head{display:flex;align-items:center;gap:12px;padding:2px 0 10px;border-bottom:2px solid #d5a900}
+.led-station-name,.led-station-code,.led-live-indicator,.led-time,.led-destination,.led-status,.led-calling-label,.led-calling-text,.led-marquee,.led-platform,.led-empty{font-family:Arial,Helvetica,sans-serif;font-weight:800;letter-spacing:.25px;color:#ffcf33;text-shadow:none;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+.led-station-name{font-size:clamp(21px,2.5vw,30px);letter-spacing:1px;color:#fff}
+.led-station-code{font-size:12px;margin-left:auto;color:#d7d7d7}
+.led-live-indicator{font-size:10px;white-space:nowrap;color:#8ee28e}
+.led-column-head{display:grid;grid-template-columns:72px minmax(0,1fr) 64px auto;gap:8px;padding:9px 0 7px;border-bottom:1px solid #777;color:#e8e8e8;font:700 9px Arial,sans-serif;letter-spacing:.8px}
+.led-column-head span:nth-child(3){text-align:center}
+.led-column-head span:last-child{text-align:right}
+.led-departure{padding:10px 0 9px;border-bottom:1px solid #3b3b3b;min-width:0}
 .led-departure:last-child{border-bottom:0}
-.led-main-line{display:grid;grid-template-columns:68px minmax(0,1fr) auto;gap:9px;align-items:center;min-width:0}
+.led-main-line{display:grid;grid-template-columns:72px minmax(0,1fr) 64px auto;gap:8px;align-items:center;min-width:0}
 .led-time-wrap,.led-expected-wrap{display:flex;flex-direction:column;gap:3px;min-width:0}
-.led-time-label{font:700 9px Arial,sans-serif;letter-spacing:1.2px;color:#c18b32}
 .led-expected-wrap{align-items:flex-end;text-align:right}
-.led-expected-wrap .led-status{font-size:clamp(13px,1.5vw,17px)}
-.led-countdown{font:800 clamp(11px,1.25vw,14px) Arial,Helvetica,sans-serif;letter-spacing:.5px;color:#ffcf55;white-space:nowrap}
-.led-countdown.led-alert{color:#ff554c}
-.led-time{font-size:clamp(18px,2vw,25px);white-space:nowrap}
-.led-destination{font-size:clamp(13px,1.5vw,18px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.led-status{font-size:11px;white-space:nowrap}
-.led-status.led-alert{color:#ff554c;text-shadow:none}
-.led-detail-line{display:flex;align-items:center;gap:8px;min-width:0;margin-top:7px;overflow:hidden}
-.led-platform{font-size:10px;white-space:nowrap}
-.led-calling-label{font-size:10px;white-space:nowrap}
-.led-calling-text,.led-marquee{font-size:11px;white-space:nowrap;min-width:0}
+.led-time{font-size:clamp(17px,1.9vw,23px);white-space:nowrap}
+.led-countdown{font:800 clamp(10px,1.1vw,12px) Arial,Helvetica,sans-serif;letter-spacing:.2px;color:#fff;white-space:nowrap}
+.led-countdown.led-alert{color:#ff625b}
+.led-destination{font-size:clamp(12px,1.35vw,16px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.led-platform{font-size:clamp(12px,1.2vw,14px);text-align:center;white-space:nowrap}
+.led-status{font-size:clamp(11px,1.25vw,14px);white-space:nowrap;color:#ffcf33}
+.led-status.led-alert{color:#ff625b}
+.led-detail-line{display:flex;align-items:center;gap:8px;min-width:0;margin-top:6px;overflow:hidden}
+.led-calling-label{font-size:9px;white-space:nowrap;color:#c9c9c9}
+.led-calling-text,.led-marquee{font-size:10px;white-space:nowrap;min-width:0;color:#e8c95c}
 .led-calling-text{overflow:hidden;text-overflow:ellipsis}
 .led-marquee{overflow:hidden;flex:1}
 .led-marquee span{display:inline-block;min-width:max-content;animation:ledTicker 24s linear infinite}
@@ -82,7 +83,15 @@ body{margin:0;min-height:100vh;background:#080a0c;color:#fff;font-family:Arial,H
 .led-offline{border-color:#69251f}
 .rail-state{padding:18px 12px;text-align:center;color:#aeb5bb;font-size:13px}
 .rail-foot{padding:10px 26px;background:#111519;border-top:1px solid #30363b;color:#929ba2;font-size:10px;display:flex;justify-content:space-between;gap:10px}
-@media(max-width:760px){.led-station-grid{grid-template-columns:1fr}.led-station{padding:10px 12px}.led-main-line{grid-template-columns:60px minmax(0,1fr) auto}.led-time{font-size:20px}.led-destination{font-size:15px}}
+@media(max-width:760px){
+ .led-station-grid{grid-template-columns:1fr}
+ .led-station{padding:10px 12px}
+ .led-column-head,.led-main-line{grid-template-columns:62px minmax(0,1fr) 52px auto;gap:6px}
+ .led-time{font-size:19px}
+ .led-destination{font-size:14px}
+ .led-platform{font-size:12px}
+ .led-status{font-size:11px}
+}
 @media(max-width:650px){.rail-head{padding:17px 15px 12px}.led-rail-board{padding:0 7px 10px}.rail-foot{padding:10px 15px;flex-wrap:wrap}}
 /* Orange service-hours panel and flashing train warning */
 
