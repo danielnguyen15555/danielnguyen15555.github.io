@@ -1536,9 +1536,9 @@ body.station-mode .sign { width:min(calc(100% - 24px), 1100px) !important; }
 .rail-head .rail-brand-wrap { flex:1 1 250px; min-width:0; }
 .rail-head > .live { flex:0 0 auto; }
 .rail-head .swr-service-status {
-  flex:1 1 300px; min-width:230px; max-width:560px;
-  margin:0 !important; padding:9px 12px !important;
-  display:flex; align-items:center; gap:10px;
+  flex:0 1 auto; width:fit-content; min-width:0; max-width:min(560px, 100%);
+  margin:0 !important; padding:8px 11px !important;
+  display:flex; align-items:center; gap:9px;
   border-radius:10px !important;
 }
 .rail-head .swr-status-symbol {
@@ -1549,6 +1549,6 @@ body.station-mode .sign { width:min(calc(100% - 24px), 1100px) !important; }
 .rail-head .swr-status-detail { font-size:10px; margin-top:2px; }
 .rail-head .swr-status-link { font-size:8px; white-space:nowrap; }
 @media(max-width:650px) {
-  .rail-head .swr-service-status { flex:1 1 100%; max-width:none; min-width:0; }
+  .rail-head .swr-service-status { flex:1 1 100%; width:100%; max-width:none; min-width:0; }
   .rail-head .swr-status-link { margin-left:auto; }
 }
