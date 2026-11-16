@@ -51,9 +51,9 @@ body{margin:0;min-height:100vh;background:#080a0c;color:#fff;font-family:Arial,H
 .rail-route{font-size:13px;color:var(--amber);font-weight:800;letter-spacing:1.5px;margin-top:6px}
 .led-rail-board{padding:0 12px 16px}
 .led-station-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.led-station{min-width:0;background:#020202;border:1px solid #282016;box-shadow:inset 0 0 22px #ff9d0010;padding:12px 14px 8px;overflow:hidden}
+.led-station{min-width:0;background:#020202;border:1px solid #282016;padding:12px 14px 8px;overflow:hidden}
 .led-station-head{display:flex;align-items:center;gap:12px;padding:2px 0 10px;border-bottom:1px solid #5b3900}
-.led-station-name,.led-station-code,.led-live-indicator,.led-time,.led-destination,.led-status,.led-calling-label,.led-calling-text,.led-marquee,.led-platform,.led-empty{font-family:"Courier New",monospace;font-weight:900;letter-spacing:.7px;color:transparent;background-image:radial-gradient(circle,#ffae00 1.45px,transparent 1.75px);background-size:5px 5px;background-clip:text;-webkit-background-clip:text;text-shadow:0 0 7px #ff9d0040}
+.led-station-name,.led-station-code,.led-live-indicator,.led-time,.led-destination,.led-status,.led-calling-label,.led-calling-text,.led-marquee,.led-platform,.led-empty{font-family:Arial,Helvetica,sans-serif;font-weight:800;letter-spacing:.4px;color:#ffb000;text-shadow:none;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
 .led-station-name{font-size:clamp(21px,2.5vw,30px);letter-spacing:2px}
 .led-station-code{font-size:13px;margin-left:auto}
 .led-live-indicator{font-size:10px;white-space:nowrap}
@@ -63,7 +63,7 @@ body{margin:0;min-height:100vh;background:#080a0c;color:#fff;font-family:Arial,H
 .led-time{font-size:clamp(18px,2vw,25px);white-space:nowrap}
 .led-destination{font-size:clamp(13px,1.5vw,18px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .led-status{font-size:11px;white-space:nowrap}
-.led-status.led-alert{background-image:radial-gradient(circle,#ff554c 1.45px,transparent 1.75px);text-shadow:0 0 8px #ff302f80}
+.led-status.led-alert{color:#ff554c;text-shadow:none}
 .led-detail-line{display:flex;align-items:center;gap:8px;min-width:0;margin-top:7px;overflow:hidden}
 .led-platform{font-size:10px;white-space:nowrap}
 .led-calling-label{font-size:10px;white-space:nowrap}
