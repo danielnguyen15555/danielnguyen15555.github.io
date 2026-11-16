@@ -1523,3 +1523,9 @@ body{background:#050814!important;background-image:radial-gradient(ellipse at 12
   .rail-live-iframe-grid { grid-template-columns: 1fr; }
   .rail-live-iframe { height: 390px; }
 }
+
+
+/* Fit the main sign neatly within the available screen width. */
+.sign { width:min(calc(100% - 24px), 1100px) !important; box-sizing:border-box !important; }
+body.station-mode .sign { width:min(calc(100% - 24px), 1100px) !important; }
+@media(max-width:560px){ .sign { width:100% !important; } body.station-mode .sign { width:100% !important; } }
