@@ -94,7 +94,7 @@ const KINGSTON371_UPDATED = document.getElementById("kingston371Updated");
 let kingston371StopsPromise = null;
 let kingston371Refreshing = false;
 
-async function findKingston65Stops() {
+async function findKingston371Stops() {
   if (kingston371StopsPromise) return kingston371StopsPromise;
   kingston371StopsPromise = (async () => {
     const result = await fetchFeed(KINGSTON371_SEARCH);
@@ -108,9 +108,9 @@ async function findKingston65Stops() {
   catch (error) { kingston371StopsPromise = null; throw error; }
 }
 
-function renderKingston65Rows(rows) {
+function renderKingston371Rows(rows) {
   if (!rows.length) {
-    KINGSTON371_ROOT.innerHTML = '<div class="state">No live route 65 predictions at Durlston Road right now. Checking again shortly.</div>';
+    KINGSTON371_ROOT.innerHTML = '<div class="state">No live route 371 predictions at Durlston Road right now. Checking again shortly.</div>';
     return;
   }
   KINGSTON371_ROOT.innerHTML = rows.sort((a,b) => a.seconds-b.seconds).map((bus,index) => {
@@ -124,11 +124,11 @@ function renderKingston65Rows(rows) {
   }).join("");
 }
 
-async function refreshKingston65() {
+async function refreshKingston371() {
   if (!KINGSTON371_ROOT || kingston371Refreshing) return;
   kingston371Refreshing = true;
   try {
-    const stops = await findKingston65Stops();
+    const stops = await findKingston371Stops();
     if (!stops.length) throw new Error("TfL did not return Durlston Road bus stops.");
     const feeds = await Promise.allSettled(stops.map(async stop => {
       const arrivals = await fetchFeed(`https://api.tfl.gov.uk/StopPoint/${encodeURIComponent(stop.id)}/Arrivals`);
@@ -139,15 +139,15 @@ async function refreshKingston65() {
       }));
     }));
     const rows = feeds.filter(x=>x.status==="fulfilled").flatMap(x=>x.value);
-    renderKingston65Rows(rows);
+    renderKingston371Rows(rows);
     KINGSTON371_UPDATED.textContent = "UPDATED "+new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"})+" · TfL live predictions";
   } catch (error) {
     KINGSTON371_ROOT.innerHTML = '<div class="state error">Route 371 live arrivals are temporarily unavailable. Reconnecting automatically.</div>';
     KINGSTON371_UPDATED.textContent = "RETRYING · TfL feed";
   } finally { kingston371Refreshing = false; }
 }
-refreshKingston65();
-setInterval(refreshKingston65,30000);
+refreshKingston371();
+setInterval(refreshKingston371,30000);
 
 
 // Look up the timetable's first and last scheduled journeys for each route
