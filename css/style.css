@@ -1627,3 +1627,24 @@ body.station-mode .sign { width:min(calc(100% - 24px), 1100px) !important; }
   .sign .route { width:54px; height:41px; font-size:20px; }
 }
 @media(prefers-reduced-motion:reduce) { .sign .arrival { transition:none; } }
+
+
+/* Route 65 panel beside The Kingston Academy */
+.kingston65-section{margin:22px 0 28px;padding:clamp(16px,2.5vw,26px);border:1px solid rgba(82,220,255,.3);border-radius:20px;background:linear-gradient(135deg,rgba(12,29,53,.96),rgba(24,23,57,.96));box-shadow:0 12px 34px rgba(0,0,0,.2),0 0 24px rgba(47,205,255,.08);color:#f5fbff}
+.kingston65-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.kingston65-kicker{font-size:.68rem;letter-spacing:.16em;color:#6fe7ff;font-weight:800}
+.kingston65-heading h2{font-size:clamp(1.05rem,2.2vw,1.45rem);margin:5px 0;color:#fff;letter-spacing:.04em}
+.kingston65-heading p{margin:0;color:#9fb5ce;font-size:.72rem;letter-spacing:.1em}
+.kingston65-live{display:flex;align-items:center;gap:7px;color:#71f0c4;font-size:.72rem;font-weight:800;letter-spacing:.1em;white-space:nowrap}
+.kingston65-live i{width:8px;height:8px;border-radius:50%;background:#71f0c4;box-shadow:0 0 12px #71f0c4}
+.kingston65-arrivals{display:grid;gap:9px}
+.kingston65-row{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid rgba(155,190,225,.16);border-radius:13px;background:rgba(255,255,255,.045)}
+.kingston65-row.kingston65-next{border-color:rgba(91,225,255,.55);background:rgba(49,176,220,.1)}
+.kingston65-route{display:grid;place-items:center;min-width:55px;height:48px;border-radius:9px;background:#f1c84b;color:#142033;font-size:1.35rem;font-weight:950}
+.kingston65-info{display:grid;gap:4px;flex:1;min-width:0}
+.kingston65-info strong{font-size:1rem;color:#fff}
+.kingston65-info small,.kingston65-time small{font-size:.67rem;color:#a9bdd2;letter-spacing:.04em}
+.kingston65-time{text-align:right;display:grid;gap:4px;white-space:nowrap}
+.kingston65-time strong{font-size:clamp(1.15rem,3vw,1.55rem);color:#63e7c1;font-weight:900}
+.kingston65-foot{margin-top:12px;color:#829bb6;font-size:.68rem;letter-spacing:.04em}
+@media(max-width:520px){.kingston65-row{gap:9px;padding:9px}.kingston65-route{min-width:45px;height:43px}.kingston65-info strong{font-size:.9rem}.kingston65-info small{font-size:.59rem}.kingston65-time small{font-size:.56rem}}
