@@ -1554,3 +1554,76 @@ body.station-mode .sign { width:min(calc(100% - 24px), 1100px) !important; }
 }
   .rail-head .swr-status-link { margin-left:auto; }
 }
+
+
+/* BUS BOARD // upgraded electric-night styling */
+.sign:not(.station-mode) .top {
+  background:radial-gradient(ellipse at 12% 0%,#153d5a 0%,transparent 48%),linear-gradient(110deg,#071522,#0b1020 58%,#15102a);
+  border-bottom:1px solid #36dfff66;
+  box-shadow:inset 0 -1px #ffffff0b,0 8px 28px #0005;
+}
+.sign .brand-name { text-shadow:0 0 18px #45dfff44; }
+.sign .brand-sub { color:#75dff5; font-weight:800; }
+.sign .roundel { border-color:#ff405c; box-shadow:0 0 0 4px #ff405c18,0 0 24px #ff405c44; }
+.sign .roundel:after { background:linear-gradient(90deg,#ed2447,#ff526b); box-shadow:0 0 15px #ff345766; }
+.sign .heading {
+  position:relative; overflow:hidden;
+  background:linear-gradient(115deg,#102b43 0%,#111b35 58%,#211637 100%);
+  border-bottom:1px solid #54dfff55;
+}
+.sign .heading:after {
+  content:""; position:absolute; right:-50px; top:-90px; width:250px; height:250px;
+  border:1px solid #55dfff22; border-radius:50%;
+  box-shadow:0 0 0 22px #55dfff0a,0 0 0 48px #55dfff08;
+  pointer-events:none;
+}
+.sign .heading-eyebrow { color:#70eaff; font-size:10px; font-weight:900; letter-spacing:2.4px; }
+.sign .stopname { color:#f4fbff; text-shadow:0 0 22px #47dfff55; }
+.sign .direction { display:inline-flex; align-items:center; gap:7px; padding:6px 10px; border:1px solid #ffc85766; border-radius:999px; background:#ffc85713; color:#ffd879; }
+.sign .direction:before { content:""; width:7px; height:7px; border-radius:50%; background:#ffd36b; box-shadow:0 0 10px #ffd36b; }
+.sign .stopcode { position:relative; z-index:1; padding:9px 12px; border:1px solid #4adfff55; border-radius:10px; background:#071725aa; color:#8fc6dc; }
+.sign .stopcode strong { color:#8ceeff; font:900 17px "Courier New",monospace; letter-spacing:1.5px; }
+.sign .board { background:linear-gradient(180deg,#081321,#080c17); }
+.sign .labels { color:#71dff5; border-bottom:1px solid #3d7c91; letter-spacing:2px; }
+.sign .arrival {
+  position:relative; margin:7px 0; padding:13px 14px; min-height:78px;
+  border:1px solid #23445d; border-radius:11px;
+  background:linear-gradient(100deg,#10243a,#10182b 65%,#17152b);
+  box-shadow:inset 0 1px #ffffff0b,0 5px 15px #0003;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.sign .arrival:before { content:""; position:absolute; left:0; top:12px; bottom:12px; width:3px; border-radius:0 4px 4px 0; background:linear-gradient(#45e5ff,#9c7bff); }
+.sign .arrival:hover { transform:translateY(-2px); border-color:#62e6ff; box-shadow:0 8px 22px #0006,0 0 18px #32dfff18; }
+.sign .route {
+  width:64px; height:46px; border:2px solid #fff; border-radius:9px;
+  background:linear-gradient(145deg,#f9fcff,#cfe7f2); color:#071522;
+  box-shadow:0 0 15px #54dfff22; font-size:24px;
+}
+.sign .destination { color:#f2f8ff; }
+.sign .via { color:#91afc5; }
+.sign .time { color:#ffe18a; text-shadow:0 0 16px #ffcf5b44; }
+.sign .time small { color:#75eaff; }
+.sign .state { color:#8cecff; }
+.sign .footer { background:#071321; border-top:1px solid #31546a; color:#82a7bb; }
+.sign .footer strong { color:#8deaff; }
+.sign .bus-service-hours {
+  margin:14px 0 0 !important; padding:13px 14px !important;
+  border:1px solid #8264d8 !important; border-left:4px solid #a68aff !important;
+  border-radius:12px !important;
+  background:linear-gradient(115deg,#171b38,#17132c 70%,#251637) !important;
+  box-shadow:inset 0 1px #ffffff12,0 8px 22px #0004,0 0 20px #9774ff12 !important;
+}
+.sign .bus-hours-title { color:#c0aaff !important; text-shadow:0 0 12px #9b79ff55; letter-spacing:1.8px; }
+.sign .bus-hours-title:before { content:"◷"; color:#80eaff; font-size:15px; margin-right:5px; }
+.sign .bus-hours-item { border:1px solid #514477 !important; border-radius:9px !important; background:#111a30 !important; }
+.sign .bus-hours-route { color:#8ceaff !important; }
+.sign .bus-hours-times { color:#fff0b4 !important; }
+.sign .bus-hours-state { color:#b5a9d4; }
+@media(max-width:560px) {
+  .sign .heading { align-items:flex-start; }
+  .sign .stopcode { font-size:10px; padding:7px 8px; }
+  .sign .stopcode strong { font-size:13px; }
+  .sign .arrival { padding:11px 8px; }
+  .sign .route { width:54px; height:41px; font-size:20px; }
+}
+@media(prefers-reduced-motion:reduce) { .sign .arrival { transition:none; } }
