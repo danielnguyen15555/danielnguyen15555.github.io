@@ -1650,3 +1650,8 @@ body.station-mode .sign { width:min(calc(100% - 24px), 1100px) !important; }
 @media(max-width:520px){.kingston371-row{gap:9px;padding:9px}.kingston371-route{min-width:45px;height:43px}.kingston371-info strong{font-size:.9rem}.kingston371-info small{font-size:.59rem}.kingston371-time small{font-size:.56rem}}
 
 .kingston371-map-link{display:inline-flex;align-items:center;gap:9px;margin-top:12px;padding:10px 15px;border:1px solid rgba(111,231,255,.55);border-radius:9px;background:linear-gradient(110deg,rgba(35,191,226,.2),rgba(112,93,230,.2));color:#9cf0ff;font-size:.7rem;font-weight:900;letter-spacing:.08em;text-decoration:none;box-shadow:0 0 18px rgba(47,205,255,.1);transition:transform .18s ease,background .18s ease,border-color .18s ease}.kingston371-map-link:hover{transform:translateY(-1px);border-color:#9cf0ff;background:linear-gradient(110deg,rgba(35,191,226,.32),rgba(112,93,230,.3))}.kingston371-map-link:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+.kingston371-map-frame-wrap{width:100%;height:clamp(360px,58vw,620px);overflow:hidden;border:1px solid rgba(111,231,255,.28);border-radius:14px;background:#0c1728}
+.kingston371-map-frame{display:block;width:100%;height:100%;border:0;background:#0c1728}
+.kingston371-foot a{margin-left:8px}
+@media(max-width:520px){.kingston371-map-frame-wrap{height:68vh;min-height:420px}}
