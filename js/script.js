@@ -86,65 +86,65 @@ async function refresh(){
 refresh();
 setInterval(refresh,REFRESH_MS);
 
-// Route 65 live arrivals at Durlston Road, beside The Kingston Academy.
+// Route 371 live arrivals at Durlston Road, beside The Kingston Academy.
 // Resolve the stop IDs from TfL's own stop search rather than hard-coding guessed IDs.
-const KINGSTON65_SEARCH = "https://api.tfl.gov.uk/StopPoint/Search/Durlston%20Road?modes=bus";
-const KINGSTON65_ROOT = document.getElementById("kingston65Arrivals");
-const KINGSTON65_UPDATED = document.getElementById("kingston65Updated");
-let kingston65StopsPromise = null;
-let kingston65Refreshing = false;
+const KINGSTON371_SEARCH = "https://api.tfl.gov.uk/StopPoint/Search/Durlston%20Road?modes=bus";
+const KINGSTON371_ROOT = document.getElementById("kingston371Arrivals");
+const KINGSTON371_UPDATED = document.getElementById("kingston371Updated");
+let kingston371StopsPromise = null;
+let kingston371Refreshing = false;
 
 async function findKingston65Stops() {
-  if (kingston65StopsPromise) return kingston65StopsPromise;
-  kingston65StopsPromise = (async () => {
-    const result = await fetchFeed(KINGSTON65_SEARCH);
+  if (kingston371StopsPromise) return kingston371StopsPromise;
+  kingston371StopsPromise = (async () => {
+    const result = await fetchFeed(KINGSTON371_SEARCH);
     const matches = Array.isArray(result.matches) ? result.matches : [];
     return matches.filter(stop => stop && stop.id && String(stop.id).startsWith("490") &&
       /durlston road/i.test(stop.name || "") &&
       (!Array.isArray(stop.modes) || stop.modes.includes("bus")))
       .slice(0, 4);
   })();
-  try { return await kingston65StopsPromise; }
-  catch (error) { kingston65StopsPromise = null; throw error; }
+  try { return await kingston371StopsPromise; }
+  catch (error) { kingston371StopsPromise = null; throw error; }
 }
 
 function renderKingston65Rows(rows) {
   if (!rows.length) {
-    KINGSTON65_ROOT.innerHTML = '<div class="state">No live route 65 predictions at Durlston Road right now. Checking again shortly.</div>';
+    KINGSTON371_ROOT.innerHTML = '<div class="state">No live route 65 predictions at Durlston Road right now. Checking again shortly.</div>';
     return;
   }
-  KINGSTON65_ROOT.innerHTML = rows.sort((a,b) => a.seconds-b.seconds).map((bus,index) => {
+  KINGSTON371_ROOT.innerHTML = rows.sort((a,b) => a.seconds-b.seconds).map((bus,index) => {
     const mins = dueText(bus.seconds);
     const eta = bus.expected ? new Date(bus.expected).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}) : "";
-    return `<article class="kingston65-row ${index===0 ? "kingston65-next" : ""}">
-      <div class="kingston65-route">65</div>
-      <div class="kingston65-info"><strong>${safe(bus.destination)}</strong><small>${safe(bus.direction)} · ${safe(bus.stopName)}</small></div>
-      <div class="kingston65-time"><strong>${mins}</strong><small>${eta ? "EXPECTED "+eta : "LIVE PREDICTION"}</small></div>
+    return `<article class="kingston371-row ${index===0 ? "kingston371-next" : ""}">
+      <div class="kingston371-route">371</div>
+      <div class="kingston371-info"><strong>${safe(bus.destination)}</strong><small>${safe(bus.direction)} · ${safe(bus.stopName)}</small></div>
+      <div class="kingston371-time"><strong>${mins}</strong><small>${eta ? "EXPECTED "+eta : "LIVE PREDICTION"}</small></div>
     </article>`;
   }).join("");
 }
 
 async function refreshKingston65() {
-  if (!KINGSTON65_ROOT || kingston65Refreshing) return;
-  kingston65Refreshing = true;
+  if (!KINGSTON371_ROOT || kingston371Refreshing) return;
+  kingston371Refreshing = true;
   try {
     const stops = await findKingston65Stops();
     if (!stops.length) throw new Error("TfL did not return Durlston Road bus stops.");
     const feeds = await Promise.allSettled(stops.map(async stop => {
       const arrivals = await fetchFeed(`https://api.tfl.gov.uk/StopPoint/${encodeURIComponent(stop.id)}/Arrivals`);
-      return arrivals.filter(bus => String(bus.lineName) === "65").map(bus => ({
+      return arrivals.filter(bus => String(bus.lineName) === "371").map(bus => ({
         seconds:Number(bus.timeToStation || 0), expected:bus.expectedArrival || "",
-        destination:bus.destinationName || "Route 65", direction:bus.towards || bus.destinationName || "Route 65",
+        destination:bus.destinationName || "Route 371", direction:bus.towards || bus.destinationName || "Route 371",
         stopName:stop.name || "Durlston Road"
       }));
     }));
     const rows = feeds.filter(x=>x.status==="fulfilled").flatMap(x=>x.value);
     renderKingston65Rows(rows);
-    KINGSTON65_UPDATED.textContent = "UPDATED "+new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"})+" · TfL live predictions";
+    KINGSTON371_UPDATED.textContent = "UPDATED "+new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"})+" · TfL live predictions";
   } catch (error) {
-    KINGSTON65_ROOT.innerHTML = '<div class="state error">Route 65 live arrivals are temporarily unavailable. Reconnecting automatically.</div>';
-    KINGSTON65_UPDATED.textContent = "RETRYING · TfL feed";
-  } finally { kingston65Refreshing = false; }
+    KINGSTON371_ROOT.innerHTML = '<div class="state error">Route 371 live arrivals are temporarily unavailable. Reconnecting automatically.</div>';
+    KINGSTON371_UPDATED.textContent = "RETRYING · TfL feed";
+  } finally { kingston371Refreshing = false; }
 }
 refreshKingston65();
 setInterval(refreshKingston65,30000);
